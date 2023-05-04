@@ -54,7 +54,7 @@ namespace TaskManager
                 MessageBox.Show("Вы успешно вошли!");
                 UserPageWindow userPageWindow = new UserPageWindow();
                 userPageWindow.Show();
-                Hide();
+                Close();
             }
         }
 
@@ -62,7 +62,7 @@ namespace TaskManager
         {
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
-            Hide();
+            Close();
         }
     }
 }

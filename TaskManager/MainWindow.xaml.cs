@@ -25,10 +25,12 @@ namespace TaskManager
         {
             InitializeComponent();
 
-            DoubleAnimation btnAnimation = new DoubleAnimation();
-            btnAnimation.From = 0;
-            btnAnimation.To = 450;
-            btnAnimation.Duration = TimeSpan.FromSeconds(2);
+            DoubleAnimation btnAnimation = new DoubleAnimation
+            {
+                From = 0,
+                To = 450,
+                Duration = TimeSpan.FromSeconds(2)
+            };
             RegButton.BeginAnimation(Button.WidthProperty, btnAnimation);
         }
 
@@ -59,7 +61,7 @@ namespace TaskManager
                 passBox.ToolTip = "";
                 passBox.Background = Brushes.Transparent;
             }
-            if (pass != pass_2)
+            if (pass != pass_2 || pass_2.Length < 5)
             {
                 passBox_2.ToolTip = "Поле введено не коректно";
                 passBox_2.Background = Brushes.OrangeRed;
@@ -85,15 +87,14 @@ namespace TaskManager
                 MessageBox.Show("Вы успешно зарегестрировались!");
                 UserPageWindow userPageWindow = new UserPageWindow();
                 userPageWindow.Show();
-                Hide();
+                Close();
             }
         }
-
         private void Button_Auth_Click(object sender, RoutedEventArgs e)
         {
             AuthWindow authWindow = new AuthWindow();
             authWindow.Show();
-            Hide();
+            Close();
         }
     }
 }
