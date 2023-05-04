@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:TaskManager"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        Title="ТаскМанагер" Height="450" Width="700">
+        WindowStartupLocation="CenterScreen"
+        Title="ТаскМанагер" Height="600" Width="1000">
     <Window.Triggers>
         <EventTrigger RoutedEvent="Loaded">
             <EventTrigger.Actions>
