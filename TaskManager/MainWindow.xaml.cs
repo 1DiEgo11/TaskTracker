@@ -42,7 +42,7 @@ namespace TaskManager
             string email = emailBox.Text.Trim();
             
             if(login.Length < 5)
-            {
+            {   
                 TextBoxLogin.ToolTip = "Поле введено не коректно";
                 TextBoxLogin.Background = Brushes.OrangeRed;
             }

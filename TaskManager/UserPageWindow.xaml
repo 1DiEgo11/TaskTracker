@@ -9,8 +9,6 @@
         WindowStartupLocation="CenterScreen"
         Title="ТаскМанагер" Height="600" Width="1000">
     <Grid>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="63,91,0,0" VerticalAlignment="Top" Height="138" Width="181"/>
-        <TextBlock HorizontalAlignment="Left" Margin="63,50,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="36" Width="472"/>
         
     </Grid>
 </Window>
