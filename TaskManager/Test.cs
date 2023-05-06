@@ -20,10 +20,8 @@ namespace TaskManager
                 HorizontalScrollBarVisibility = ScrollBarVisibility.Auto
             };
 
-            // Add the StackPanel as the lone Child of the Border
             myScrollViewer.Content = MyBorder();
 
-            // Add the Border as the Content of the Parent Window Object
             return myScrollViewer;
         }
 
@@ -32,10 +30,6 @@ namespace TaskManager
             StackPanel myStackPanel = new StackPanel();
 
             myStackPanel.Orientation = Orientation.Horizontal;
-
-            
-
-
 
             return Stack(myStackPanel);
         }
