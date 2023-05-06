@@ -20,55 +20,68 @@ namespace TaskManager
                 HorizontalScrollBarVisibility = ScrollBarVisibility.Auto
             };
 
-            // Add Layout control
-            var myStackPanel = new StackPanel();
+            // Add the StackPanel as the lone Child of the Border
+            myScrollViewer.Content = MyBorder();
 
+            // Add the Border as the Content of the Parent Window Object
+            return myScrollViewer;
+        }
+
+        private static StackPanel MyBorder()
+        {
+            StackPanel myStackPanel = new StackPanel();
+
+            myStackPanel.Orientation = Orientation.Horizontal;
+
+            
+
+
+
+            return Stack(myStackPanel);
+        }
+
+        private static StackPanel Stack( StackPanel stack)
+        { 
+            stack.Children.Add(Column());
+            stack.Children.Add(Column());
+            return stack;
+        }
+        private static Border Column()
+        {
             Border bord = new Border
             {
                 Margin = new Thickness(10),
                 Background = new SolidColorBrush(Colors.White),
                 VerticalAlignment = VerticalAlignment.Top,
                 HorizontalAlignment = HorizontalAlignment.Left,
-                MinWidth = 40,
-                MaxWidth = 140,
                 Padding = new Thickness(3),
                 CornerRadius = new CornerRadius(5),
-
-                Effect =  new DropShadowEffect { BlurRadius = 30, Color = Colors.Black, ShadowDepth = 0 }
+                Effect = new DropShadowEffect { BlurRadius = 30, Color = Colors.Black, ShadowDepth = 0 }
             };
-            
-            
 
-            TextBlock myTextBlock = new TextBlock
+            StackPanel myStack = new StackPanel();
+
+            var myCart = new Button
             {
-                TextWrapping = TextWrapping.Wrap,
-                Margin = new Thickness(20),
-                Width = 100,
-                Height = 20,
-                Text = "Scrolling is enabled when it is necessary. Resize the Window, making it larger and smaller."
+                Background = new SolidColorBrush(Colors.Blue),
+                Margin = new Thickness(10),
+                Width = 200,
+                Height = 40,
+                Content = "Сделать покушать!"
             };
 
             var button_Add = new Button
             {
                 Margin = new Thickness(20),
-                Width = 118,
-                HorizontalAlignment = HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Top,
+                Width = 200,
+                Height = 40,
                 Content = "+ Карточка"
-
             };
 
-            
-            // Add child elements to the parent StackPanel
-            myStackPanel.Children.Add(myTextBlock);
-            myStackPanel.Children.Add(button_Add);
-            bord.Child = myStackPanel;
-
-            // Add the StackPanel as the lone Child of the Border
-            myScrollViewer.Content = bord;
-
-            // Add the Border as the Content of the Parent Window Object
-            return myScrollViewer;
+            myStack.Children.Add(myCart);
+            myStack.Children.Add(button_Add);
+            bord.Child = myStack;
+            return bord;
         }
     }
 }

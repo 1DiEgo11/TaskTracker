@@ -135,9 +135,6 @@ namespace TaskManager
 
             Content = Test.Draw_Stack();
             Show();
-
         }
-
-        
     }
 }
