@@ -12,27 +12,148 @@ namespace TaskManager
 {
     internal class Moving_cards
     {
-        public static void Move(StackPanel content)
+        private const string select_color = "#00FFFF";
+        private int index_main, index_card;
+        private Button btn;
+        private Brush prev_color;
+        private StackPanel main_stack, stack_cards;
+        private Window window;
+        public void Move(ScrollViewer content, Window window)
         {
-            Border s = (Border)content.Children[0];
-            StackPanel a = s.Child as StackPanel;
-            Button b = a.Children[0] as Button;
-            b.Background = new SolidColorBrush(Colors.Red);
+            this.window = window;
+            main_stack = content.Content as StackPanel;
+            stack_cards = (StackPanel)((Border)main_stack.Children[0]).Child;
+            index_main = 0;
+            btn = stack_cards.Children[0] as Button;
+            index_card = 0;
+            prev_color = btn.Background;
+            btn.Background = Converter(select_color);
+            window.PreviewKeyDown += Select_card;
+            window.PreviewKeyDown += Move_card_Where;
+        }
 
-            if ((Keyboard.GetKeyStates(Key.Down) & KeyStates.Down) > 0)
+        private void Select_card(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Down)
             {
-                Move_Down();
+                Sel_Down();
             }
-            
-
+            else if (e.Key == Key.Up)
+            {
+                Sel_Up();
+            }
+            else if (e.Key == Key.Left)
+            {
+                Sel_Left();
+            }
+            else if (e.Key == Key.Right)
+            {
+                Sel_Right();
+            }
+            else if (e.Key == Key.O)
+            {
+                Back(window);
+            }
+            else if (e.Key == Key.Enter)
+            {
+                Move_card_Where(sender, e);
+            }
         }
-        private static void Move_Up() { }
-        private static void Move_Down() 
+        private void Back(Window window)
         {
-            MessageBox.Show("Pidoras");
+            btn.Background = prev_color;
+            Keyboard.RemovePreviewKeyDownHandler(window, Select_card);
+            Keyboard.RemovePreviewKeyDownHandler(window, Move_card_Where);
         }
-        private static void Move_Left() { }
-        private static void Move_Right() { }
+        private void Sel_Up() 
+        {
+            if(index_card > 0)
+            {
+                btn.Background = prev_color;
+                btn = stack_cards.Children[index_card - 1] as Button;
+                index_card--;
+                prev_color = btn.Background;
+                btn.Background = Converter(select_color);
+            }
+        }
+        private void Sel_Down() 
+        {
+            if(index_card < stack_cards.Children.Count - 2)
+            {
+                btn.Background = prev_color;
+                btn = stack_cards.Children[index_card + 1] as Button;
+                index_card++;
+                prev_color = btn.Background;
+                btn.Background = Converter(select_color);
+            }
+        }
+        private void Sel_Left() 
+        {
+            if(index_main > 0 && main_stack.Children.Count > 0)
+            {
+                btn.Background = prev_color;
+                stack_cards = (StackPanel)((Border)main_stack.Children[index_main - 1]).Child;
+                index_main--; 
+                btn = stack_cards.Children[0] as Button;
+                index_card = 0;
+                prev_color = btn.Background;
+                btn.Background = Converter(select_color);
+            }
+        }
+        private void Sel_Right() 
+        {
+            if (main_stack.Children.Count > 0 && index_main < main_stack.Children.Count - 2)
+            {
+                btn.Background = prev_color;
+                stack_cards = (StackPanel)((Border)main_stack.Children[index_main + 1]).Child;
+                index_main++; 
+                btn = stack_cards.Children[0] as Button;
+                index_card = 0;
+                prev_color = btn.Background;
+                btn.Background = Converter(select_color);
+            }
+        }
+        
+        private void Move_card_Where(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.A)
+            {
+                Move_Left();
+            }
+            else if(e.Key == Key.D)
+            {
+                Move_Right();
+            }
+            else if (e.Key == Key.O)
+            {
+                Back(window);
+            }
+        }
+        private void Move_Right()
+        {
+            if (index_main < main_stack.Children.Count - 2 && (string)btn.Content != "+ Карточка")
+            {
+                stack_cards.Children.RemoveAt(index_card);
+                index_main++;
+                stack_cards = (StackPanel)((Border)main_stack.Children[index_main]).Child;
+                stack_cards.Children.Insert(index_card, btn);
+                
+            }
+        }
+        private void Move_Left()
+        {
+            if (index_main > 0 && (string)btn.Content != "+ Карточка")
+            {
+                stack_cards.Children.RemoveAt(index_card);
+                index_main--;
+                stack_cards = (StackPanel)((Border)main_stack.Children[index_main]).Child;
+                stack_cards.Children.Insert(index_card, btn);
+            }
+        }
 
+        private static SolidColorBrush Converter(string s)
+        {
+            return (SolidColorBrush)new BrushConverter().ConvertFrom(s);
+        }
     }
 }

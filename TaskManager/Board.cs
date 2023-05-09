@@ -87,10 +87,11 @@ namespace TaskManager
             };
 
 
-            bord.Child = myPanel;
+            
             myPanel.Children.Add(MyText);
             myPanel.Children.Add(myCart);
             myPanel.Children.Add(button_Add);
+            bord.Child = myPanel;
             return bord;
         }
     }

@@ -35,25 +35,17 @@ namespace TaskManager
             };
 
             myStackPanel = Stack(myStackPanel);
-            var move_button = new Button
-            {
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Bottom,
-                Content = "Move Card"
-            };
-            move_button.Click += Move_button_Click;
-            myStackPanel.Children.Add(move_button);
+
+            //move_button.Click += (s, a) => Moving_cards.Move(myStackPanel); 
 
             return myStackPanel;
         }
-
-        private void Move_button_Click(object sender, RoutedEventArgs e)
-        {
-            Moving_cards.Move(myStackPanel);
-        }
-
+  
         private static StackPanel Stack( StackPanel stack)
         { 
+            stack.Children.Add(Column());
+            stack.Children.Add(Column());
+            stack.Children.Add(Column());
             stack.Children.Add(Column());
             stack.Children.Add(Jopumn());
             return stack;
@@ -82,6 +74,15 @@ namespace TaskManager
                 Content = "Сделать покушать!"
             };
 
+            var WhatToDo2 = new Button
+            {
+                Background = new SolidColorBrush(Colors.Blue),
+                Margin = new Thickness(10),
+                Width = 225,
+                Height = 40,
+                Content = "Скушать кушанье!"
+            };
+
             var Plus = new Button
             {
                 Margin = new Thickness(20),
@@ -91,6 +92,7 @@ namespace TaskManager
             };
 
             myStack.Children.Add(WhatToDo);
+            myStack.Children.Add(WhatToDo2);
             myStack.Children.Add(Plus);
             bord.Child = myStack;
 
