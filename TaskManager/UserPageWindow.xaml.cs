@@ -25,8 +25,6 @@ namespace TaskManager
         {
             InitializeComponent();
 
-
-
             //// Create the Grid
             //Grid myGrid = new Grid();
             //myGrid.Width = 250;
@@ -132,8 +130,8 @@ namespace TaskManager
             //Show();
 
             Background = new SolidColorBrush(Colors.LightGray);
-
-            Content = Test.Draw_Stack();
+            Content = Board.Draw_Stack();
+            //Content = Test.Draw_Stack();
             Show();
         }
     }
