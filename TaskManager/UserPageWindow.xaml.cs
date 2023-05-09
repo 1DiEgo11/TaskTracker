@@ -23,8 +23,6 @@ namespace TaskManager
 
         public UserPageWindow()
         {
-            
-            
             InitializeComponent();
 
             
@@ -133,7 +131,8 @@ namespace TaskManager
             Show();*/
 
             Background = new SolidColorBrush(Colors.LightGray);
-            Content = Test.Draw_Stack();
+            Content = Board.Draw_Stack();
+            //Content = Test.Draw_Stack();
             Show();
         }
         

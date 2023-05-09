@@ -70,6 +70,7 @@
       <DependentUpon>AuthWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Moving_cards.cs" />
+    <Compile Include="Board.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="User.cs" />
     <Compile Include="UserPageWindow.xaml.cs">
