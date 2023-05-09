@@ -17,7 +17,7 @@
                 <TextBlock Text="Привет!" FontSize="30" FontWeight="Bold" Margin="0 0 0 20"/>
                 
                 <Grid Margin="0 0 0 20">
-                    <Button HorizontalAlignment="Left" Content="Реристрация"></Button>
+                    <Button HorizontalAlignment="Left" Content="Регистрация"></Button>
                     <Button HorizontalAlignment="Right" Content="Войти" Click="Button_Auth_Click" Style="{StaticResource MaterialDesignFlatButton}"></Button>
                 </Grid>
 

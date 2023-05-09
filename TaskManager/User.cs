@@ -11,9 +11,6 @@ namespace TaskManager
         private int id { get; set; }
         private string login, password, email;
 
-        
-
-
         public string Login
         {
             get { return login; }
