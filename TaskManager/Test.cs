@@ -13,7 +13,7 @@ namespace TaskManager
 {
     internal class Test
     {
-        public StackPanel myStackPanel;
+        private StackPanel myStackPanel;
         public static ScrollViewer Draw_Stack()
         {
             var a = new Test();
@@ -34,21 +34,21 @@ namespace TaskManager
                 Orientation = Orientation.Horizontal
             };
 
-            myStackPanel = Stack(myStackPanel);
+            myStackPanel = Stack();
 
             //move_button.Click += (s, a) => Moving_cards.Move(myStackPanel); 
 
             return myStackPanel;
         }
   
-        private static StackPanel Stack( StackPanel stack)
+        private StackPanel Stack()
         { 
-            stack.Children.Add(Column());
-            stack.Children.Add(Column());
-            stack.Children.Add(Column());
-            stack.Children.Add(Column());
-            stack.Children.Add(Jopumn());
-            return stack;
+            myStackPanel.Children.Add(Column());
+            myStackPanel.Children.Add(Column());
+            myStackPanel.Children.Add(Column());
+            myStackPanel.Children.Add(Column());
+            myStackPanel.Children.Add(Jopumn());
+            return myStackPanel;
         }
         private static Border Column()
         {
@@ -98,7 +98,7 @@ namespace TaskManager
 
             return bord;
         }
-        private static Border Jopumn()
+        private Border Jopumn()
         {
             Border Man = new Border
             {
@@ -127,9 +127,14 @@ namespace TaskManager
             return Man;
 
         }
-        private static void AddJopumn_Click(object sender, RoutedEventArgs e)
+        private void AddJopumn_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Hi!");
+            if (myStackPanel.Children.Count - 1 < 10)
+            {
+                myStackPanel.Children.Insert(myStackPanel.Children.Count - 2, Column());
+                if(myStackPanel.Children.Count - 1 == 10)
+                    myStackPanel.Children.RemoveAt(myStackPanel.Children.Count - 1);
+            }
         }
     }
 }
