@@ -92,12 +92,19 @@ namespace TaskManager
                 Content = "+ Карточка"
             };
             plus.Click += (s, e) => PlusCard(myStack);
-            
-            
+            plus.Click += new RoutedEventHandler(plus_Click);
+
+
             myStack.Children.Add(plus);
             bord.Child = myStack;
 
             return bord;
+        }
+        public void plus_Click(object sender, RoutedEventArgs e)
+        {
+            TaskWindow taskWindow = new TaskWindow();
+            taskWindow.Show();
+
         }
 
         private void PlusCard(StackPanel stack)
