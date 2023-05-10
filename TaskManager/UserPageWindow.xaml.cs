@@ -23,9 +23,9 @@ namespace TaskManager
         {
             InitializeComponent();
 
+            var d = new Board();
             Background = new SolidColorBrush(Colors.LightGray);
-            //Content = Board.Draw_Stack();
-            Content = Test.Draw_Stack();
+            Content = d.Draw_Stack(this);
             Show();
 
             PreviewKeyDown += Key_down;

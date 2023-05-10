@@ -9,6 +9,6 @@
         WindowStartupLocation="CenterScreen"
         Title="ТаскМанагер" Height="600" Width="1000">
     <Grid>
-
+        
     </Grid>
 </Window>

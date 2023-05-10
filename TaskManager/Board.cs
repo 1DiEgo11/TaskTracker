@@ -15,58 +15,75 @@ namespace TaskManager
 {
     internal class Board
     {
-        public static ScrollViewer Draw_Stack()
+        private Window window;
+        public ScrollViewer Draw_Stack(Window window)
         {
+            StackPanel myStackPanel = new StackPanel();
+            this.window = window;
             var myScrollViewer = new ScrollViewer
             {
-                HorizontalScrollBarVisibility = ScrollBarVisibility.Auto
+                HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
+                Content = Stack(myStackPanel)
             };
-            myScrollViewer.Content = MyBorder();
 
             return myScrollViewer;
         }
 
-        private static StackPanel MyBorder()
-        {
-            StackPanel myStackPanel = new StackPanel();
-            myStackPanel.Orientation = Orientation.Horizontal;
-            return Stack(myStackPanel);
-        } 
+        //private StackPanel MyBorder()
+        //{
+        //    StackPanel myStackPanel = new StackPanel();
+        //    myStackPanel = Stack(myStackPanel);
+        //    return myStackPanel;
+        //} 
         
-        private static StackPanel Stack(StackPanel stack)
-        {
-            stack.Children.Add(Column());
-            return stack;
-        }
-
-        private static Border Column()
+        private Border Stack(StackPanel stack)
         {
             Border bord = new Border
             {
-                Width = 700,
-                Height = 400,
-                Margin = new Thickness(150, 20, 0, 0),
+                Width = 1200,
+                Margin = new Thickness(20),
                 Background = new SolidColorBrush(Colors.White),
                 Padding = new Thickness(3),
-                HorizontalAlignment = HorizontalAlignment.Left,
+                HorizontalAlignment = HorizontalAlignment.Center,
                 CornerRadius = new CornerRadius(5),
                 Effect = new DropShadowEffect { BlurRadius = 30, Color = Colors.Black, ShadowDepth = 0 }
-                
             };
 
-            
-
-            var MyText = new TextBlock 
+            var MyText = new TextBlock
             {
-               FontSize = 20,
-               Margin = new Thickness(30,30,500,0),
-               Text = "Мои доски",
-             };
+                Margin = new Thickness(30, 30, 30, 0),
+                Text = "Все доступные вам доски",
+                FontSize = 20
+            };
+            stack.Children.Add(MyText);
+            stack.Children.Add(Column());
+            bord.Child = stack;
+            return bord;
+        }
 
-            WrapPanel myPanel = new WrapPanel();
-            myPanel.VerticalAlignment = VerticalAlignment.Top;
-            myPanel.Orientation = Orientation.Horizontal;
-            myPanel.HorizontalAlignment = HorizontalAlignment.Left;
+        private Button Create()
+        {
+            var myCart = new Button
+            {
+                Background = new SolidColorBrush(Colors.Gray),
+                Margin = new Thickness(30),
+                Width = 100,
+                Height = 100,
+                FontSize = 30,
+                Content = "+"
+            };
+            myCart.Click += OpenDesk;
+            return myCart;
+        }
+
+        private WrapPanel Column()
+        {
+            WrapPanel myPanel = new WrapPanel
+            {
+                VerticalAlignment = VerticalAlignment.Top,
+                Orientation = Orientation.Horizontal,
+                HorizontalAlignment = HorizontalAlignment.Left
+            };
 
             var myCart = new Button
             {
@@ -77,22 +94,47 @@ namespace TaskManager
                 FontSize = 30,
                 Content = "+"
             };
+            myCart.Click += OpenDesk;
 
             var button_Add = new Button
             {
                 Margin = new Thickness(30),
                 Width = 100,
                 Height = 100,
-                Content = "+ Карточка"
+                Content = "+ Доска"
             };
 
 
             
-            myPanel.Children.Add(MyText);
             myPanel.Children.Add(myCart);
+            myPanel.Children.Add(Create());
+            myPanel.Children.Add(Create());
+            myPanel.Children.Add(Create());
+            myPanel.Children.Add(Create());
+            myPanel.Children.Add(Create());
+            myPanel.Children.Add(Create());
+            myPanel.Children.Add(Create());
+            myPanel.Children.Add(Create());
+            myPanel.Children.Add(Create());
+            myPanel.Children.Add(Create());
+            myPanel.Children.Add(Create());
+            myPanel.Children.Add(Create());
+            myPanel.Children.Add(Create());
+            myPanel.Children.Add(Create());
+            myPanel.Children.Add(Create());
+            myPanel.Children.Add(Create());
+            myPanel.Children.Add(Create());
+            myPanel.Children.Add(Create());
+            myPanel.Children.Add(Create());
+            myPanel.Children.Add(Create());
             myPanel.Children.Add(button_Add);
-            bord.Child = myPanel;
-            return bord;
+            
+            return myPanel;
+        }
+
+        private void OpenDesk(object sender, RoutedEventArgs e)
+        {
+            window.Content = Test.Draw_Stack();
         }
     }
 }

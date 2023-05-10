@@ -18,9 +18,9 @@ namespace TaskManager
         private Brush prev_color;
         private StackPanel main_stack, stack_cards;
         private Window window;
-        public void Move(ScrollViewer content, Window window)
+        public void Move(ScrollViewer content, Window _window)
         {
-            this.window = window;
+            window = _window;
             main_stack = content.Content as StackPanel;
             stack_cards = (StackPanel)((Border)main_stack.Children[0]).Child;
             index_main = 0;
@@ -54,9 +54,20 @@ namespace TaskManager
             {
                 Back(window);
             }
-            else if (e.Key == Key.Enter)
+        }
+        private void Move_card_Where(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.A)
             {
-                Move_card_Where(sender, e);
+                Move_Left();
+            }
+            else if (e.Key == Key.D)
+            {
+                Move_Right();
+            }
+            else if (e.Key == Key.O)
+            {
+                Back(window);
             }
         }
         private void Back(Window window)
@@ -113,22 +124,6 @@ namespace TaskManager
                 btn.Background = Converter(select_color);
             }
         }
-        
-        private void Move_card_Where(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.A)
-            {
-                Move_Left();
-            }
-            else if(e.Key == Key.D)
-            {
-                Move_Right();
-            }
-            else if (e.Key == Key.O)
-            {
-                Back(window);
-            }
-        }
         private void Move_Right()
         {
             if (index_main < main_stack.Children.Count - 2 && (string)btn.Content != "+ Карточка")
@@ -151,7 +146,7 @@ namespace TaskManager
             }
         }
 
-        private static SolidColorBrush Converter(string s)
+        private SolidColorBrush Converter(string s)
         {
             return (SolidColorBrush)new BrushConverter().ConvertFrom(s);
         }
