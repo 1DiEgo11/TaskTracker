@@ -11,19 +11,17 @@ using System.Windows.Media.Effects;
 
 namespace TaskManager
 {
-    internal class Test
+    internal class BoardColumn
     {
         private StackPanel myStackPanel;
-        private int index = 0;
         public static ScrollViewer Draw_Stack()
         {
-            var a = new Test();
+            var a = new BoardColumn();
             var myScrollViewer = new ScrollViewer
             {
-                HorizontalScrollBarVisibility = ScrollBarVisibility.Auto
+                HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
+                Content = a.MyBorder()
             };
-
-            myScrollViewer.Content = a.MyBorder();
 
             return myScrollViewer;
         }
@@ -50,7 +48,7 @@ namespace TaskManager
             myStackPanel.Children.Add(Jopumn());
             return myStackPanel;
         }
-        private Button Card(string s)
+        private Button Card(string name)
         {
             var task = new Button
             {
@@ -58,10 +56,18 @@ namespace TaskManager
                 Margin = new Thickness(10),
                 Width = 225,
                 Height = 40,
-                Content = s
+                Content = name
             };
+            task.Click += (s, e) => Task_Click(task);
             return task;
         }
+
+        private void Task_Click(Button card)
+        {
+            TaskWindow taskWindow = new TaskWindow(card);
+            taskWindow.Show();
+        }
+
         private Border Column(List<string> names)
         {
             Border bord = new Border
@@ -92,25 +98,18 @@ namespace TaskManager
                 Content = "+ Карточка"
             };
             plus.Click += (s, e) => PlusCard(myStack);
-            plus.Click += new RoutedEventHandler(plus_Click);
-
 
             myStack.Children.Add(plus);
             bord.Child = myStack;
 
             return bord;
         }
-        public void plus_Click(object sender, RoutedEventArgs e)
-        {
-            TaskWindow taskWindow = new TaskWindow();
-            taskWindow.Show();
-
-        }
-
         private void PlusCard(StackPanel stack)
         {
-            //StackPanel stack = (StackPanel)((Border)myStackPanel.Children[index]).Child;
-            stack.Children.Insert(stack.Children.Count - 1, Card("Новая Карточка"));
+            var newCard = Card("Новая карточка");
+            stack.Children.Insert(stack.Children.Count - 1, newCard);
+            TaskWindow taskWindow = new TaskWindow(newCard);
+            taskWindow.Show();
         }
 
         private Border Jopumn()

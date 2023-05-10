@@ -134,7 +134,7 @@ namespace TaskManager
 
         private void OpenDesk(object sender, RoutedEventArgs e)
         {
-            window.Content = Test.Draw_Stack();
+            window.Content = BoardColumn.Draw_Stack();
         }
     }
 }

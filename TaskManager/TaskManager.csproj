@@ -75,7 +75,7 @@
     <Compile Include="TaskWindow.xaml.cs">
       <DependentUpon>TaskWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Test.cs" />
+    <Compile Include="BoardColumn.cs" />
     <Compile Include="User.cs" />
     <Compile Include="UserPageWindow.xaml.cs">
       <DependentUpon>UserPageWindow.xaml</DependentUpon>

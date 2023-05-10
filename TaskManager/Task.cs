@@ -7,14 +7,19 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Effects;
 using System.Windows.Media;
+using System.Windows.Input;
 
 namespace TaskManager
 {
     internal class Task
     {
-        public ScrollViewer Draw_Stack(Window window)
+        private Button selectedButton;
+        private Window window;
+        private TextBox newText;
+        public ScrollViewer CardSettings(Window window, Button btn)
         {
-            var a = new Task();
+            selectedButton = btn;
+            this.window = window;
             StackPanel myStackPanel = new StackPanel();
             var myScrollViewer = new ScrollViewer
             {
@@ -45,9 +50,13 @@ namespace TaskManager
             };
             var Rename = new TextBox
             {
+                Text = selectedButton.Content as string,
                 Background = new SolidColorBrush(Colors.ForestGreen),
                 Foreground = new SolidColorBrush(Colors.Azure)
             };
+            newText = Rename;
+            window.PreviewKeyDown += ChangeText;
+
 
             var ChangeColorText = new TextBlock
             {
@@ -64,6 +73,14 @@ namespace TaskManager
             return bord;
         }
 
+        private void ChangeText(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Enter)
+            {
+                selectedButton.Content = newText.Text.Trim();
+            }
+        }
+
         private WrapPanel Horizontal()
         {
             WrapPanel myPanel = new WrapPanel
@@ -78,6 +95,8 @@ namespace TaskManager
                 Height = 50,
                 Content = "Серый"
             };
+            Gray.Click += (s, e) => PickColor(Gray.Background);
+
             var Purple = new Button
             {
                 Background = new SolidColorBrush(Colors.Purple),
@@ -86,6 +105,7 @@ namespace TaskManager
                 Height = 50,
                 Content = "Фиолетовый"
             };
+            Purple.Click += (s, e) => PickColor(Purple.Background);
 
             var Blue = new Button
             {
@@ -95,6 +115,7 @@ namespace TaskManager
                 Height = 50,
                 Content = "Голубой"
             };
+            Blue.Click += (s, e) => PickColor(Blue.Background);
 
             var Red = new Button
             {
@@ -104,6 +125,7 @@ namespace TaskManager
                 Height = 50,
                 Content = "Розовый"
             };
+            Red.Click += (s, e) => PickColor(Red.Background);
 
             var Green = new Button
             {
@@ -113,6 +135,7 @@ namespace TaskManager
                 Height = 50,
                 Content = "Зелёный"
             };
+            Green.Click += (s, e) => PickColor(Green.Background);
 
             var Aqumarine = new Button
             {
@@ -122,6 +145,7 @@ namespace TaskManager
                 Height = 50,
                 Content = "Аквамарин"
             };
+            Aqumarine.Click += (s, e) => PickColor(Aqumarine.Background);
 
             myPanel.Children.Add(Gray);
             myPanel.Children.Add(Purple);
@@ -131,7 +155,10 @@ namespace TaskManager
             myPanel.Children.Add(Aqumarine);
 
             return myPanel;
-
+        }
+        private void PickColor(Brush color)
+        {
+            selectedButton.Background = color;
         }
     }
 }
