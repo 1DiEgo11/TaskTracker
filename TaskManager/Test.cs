@@ -14,6 +14,7 @@ namespace TaskManager
     internal class Test
     {
         private StackPanel myStackPanel;
+        private int index = 0;
         public static ScrollViewer Draw_Stack()
         {
             var a = new Test();
@@ -36,21 +37,32 @@ namespace TaskManager
 
             myStackPanel = Stack();
 
-            //move_button.Click += (s, a) => Moving_cards.Move(myStackPanel); 
-
             return myStackPanel;
         }
   
         private StackPanel Stack()
         { 
-            myStackPanel.Children.Add(Column());
-            myStackPanel.Children.Add(Column());
-            myStackPanel.Children.Add(Column());
-            myStackPanel.Children.Add(Column());
+            List<string> list = new List<string>{"Сделать кушать", "Поспать"};
+            myStackPanel.Children.Add(Column(list));
+            myStackPanel.Children.Add(Column(list));
+            myStackPanel.Children.Add(Column(list));
+            myStackPanel.Children.Add(Column(list));
             myStackPanel.Children.Add(Jopumn());
             return myStackPanel;
         }
-        private static Border Column()
+        private Button Card(string s)
+        {
+            var task = new Button
+            {
+                Background = new SolidColorBrush(Colors.Blue),
+                Margin = new Thickness(10),
+                Width = 225,
+                Height = 40,
+                Content = s
+            };
+            return task;
+        }
+        private Border Column(List<string> names)
         {
             Border bord = new Border
             {
@@ -64,40 +76,36 @@ namespace TaskManager
             };
 
             StackPanel myStack = new StackPanel();
-
-            var WhatToDo = new Button
+            if (names != null)
             {
-                Background = new SolidColorBrush(Colors.Blue),
-                Margin = new Thickness(10),
-                Width = 225,
-                Height = 40,
-                Content = "Сделать покушать!"
-            };
+                foreach (string name in names)
+                {
+                    myStack.Children.Add(Card(name));
+                }
+            }
 
-            var WhatToDo2 = new Button
-            {
-                Background = new SolidColorBrush(Colors.Blue),
-                Margin = new Thickness(10),
-                Width = 225,
-                Height = 40,
-                Content = "Скушать кушанье!"
-            };
-
-            var Plus = new Button
+            var plus = new Button
             {
                 Margin = new Thickness(20),
                 Width = 225,
                 Height = 40,
                 Content = "+ Карточка"
             };
-
-            myStack.Children.Add(WhatToDo);
-            myStack.Children.Add(WhatToDo2);
-            myStack.Children.Add(Plus);
+            plus.Click += (s, e) => PlusCard(myStack);
+            
+            
+            myStack.Children.Add(plus);
             bord.Child = myStack;
 
             return bord;
         }
+
+        private void PlusCard(StackPanel stack)
+        {
+            //StackPanel stack = (StackPanel)((Border)myStackPanel.Children[index]).Child;
+            stack.Children.Insert(stack.Children.Count - 1, Card("Новая Карточка"));
+        }
+
         private Border Jopumn()
         {
             Border Man = new Border
@@ -131,7 +139,7 @@ namespace TaskManager
         {
             if (myStackPanel.Children.Count - 1 < 10)
             {
-                myStackPanel.Children.Insert(myStackPanel.Children.Count - 2, Column());
+                myStackPanel.Children.Insert(myStackPanel.Children.Count - 1, Column(null));
                 if(myStackPanel.Children.Count - 1 == 10)
                     myStackPanel.Children.RemoveAt(myStackPanel.Children.Count - 1);
             }
