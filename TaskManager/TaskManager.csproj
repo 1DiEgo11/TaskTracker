@@ -71,6 +71,10 @@
     </Compile>
     <Compile Include="Moving_cards.cs" />
     <Compile Include="Board.cs" />
+    <Compile Include="Task.cs" />
+    <Compile Include="TaskWindow.xaml.cs">
+      <DependentUpon>TaskWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Test.cs" />
     <Compile Include="User.cs" />
     <Compile Include="UserPageWindow.xaml.cs">
@@ -92,6 +96,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="TaskWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserPageWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
