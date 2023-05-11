@@ -17,12 +17,16 @@ namespace TaskManager
     internal class Task
     {
         private Button selectedButton;
+        private StackPanel cards;
+        private int index;
         private Window window;
         private TextBox newText;
         private TextBox Texto;
-        public ScrollViewer CardSettings(Window window, Button btn)
+        public ScrollViewer CardSettings(Window window, StackPanel stack ,int index)
         {
-            selectedButton = btn;
+            cards = stack;
+            this.index = index;
+            selectedButton = (Button)stack.Children[index];
             this.window = window;
             StackPanel myStackPanel = new StackPanel();
             var myScrollViewer = new ScrollViewer
@@ -118,15 +122,7 @@ namespace TaskManager
                 VerticalAlignment = VerticalAlignment.Bottom,
                 Orientation = Orientation.Horizontal
             };
-            //var Gray = new Button
-            //{
-            //    Background = new SolidColorBrush(Colors.Gray),
-            //    Margin = new Thickness(12.5),
-            //    Width = 120,
-            //    Height = 40,
-            //    Content = "Серый"
-            //};
-            //Gray.Click += (s, e) => PickColor(Gray.Background);
+            
 
             var Purple = new Button
             {
@@ -191,7 +187,7 @@ namespace TaskManager
         }
         private Button Delete()
         {
-            var Deleter = new Button
+            var deleter = new Button
             {
                 Background = new SolidColorBrush(Colors.Red),
                 Margin = new Thickness(30),
@@ -199,7 +195,14 @@ namespace TaskManager
                 Height = 40,
                 Content = "Удалить"
             };
-            return Deleter;
+            deleter.Click += Deleter_Click;
+            return deleter;
+        }
+
+        private void Deleter_Click(object sender, RoutedEventArgs e)
+        {
+            cards.Children.RemoveAt(index);
+            window.Close();
         }
     }
 }

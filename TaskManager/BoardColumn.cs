@@ -34,11 +34,11 @@ namespace TaskManager
                 Text = "Столбцы из ...",
                 FontSize = 20
             };
+
             var chBox = new CheckBox
             {
                 Content = "Сделать доску общедоступной"
             };
-            
             
             StackPanel panel = new StackPanel
             {
@@ -61,20 +61,18 @@ namespace TaskManager
 
             return myStackPanel;
         }
-  
         private StackPanel Stack()
         { 
             List<string> list = new List<string>{"Сделать кушать", "Поспать"};
-            myStackPanel.Children.Add(Column(list));
-            myStackPanel.Children.Add(Column(list));
-            myStackPanel.Children.Add(Column(list));
-            myStackPanel.Children.Add(Column(list));
+            myStackPanel.Children.Add(Column(null));
+            myStackPanel.Children.Add(Column(null));
+            myStackPanel.Children.Add(Column(null));
             
             myStackPanel.Children.Add(Jopumn());
             
             return myStackPanel;
         }
-        private Button Card(string name)
+        private Button Card(string name, StackPanel cards, int index)
         {
             var task = new Button
             {
@@ -84,18 +82,19 @@ namespace TaskManager
                 Height = 40,
                 Content = name
             };
-            task.Click += (s, e) => Task_Click(task);
+            task.Click += (s, e) => Task_Click(cards, index);
             return task;
         }
 
-        private void Task_Click(Button card)
+        private void Task_Click(StackPanel cards, int index)
         {
-            TaskWindow taskWindow = new TaskWindow(card);
+            TaskWindow taskWindow = new TaskWindow(cards, index);
             taskWindow.Show();
         }
 
         private Border Column(List<string> names)
         {
+            
             Border bord = new Border
             {
                 Margin = new Thickness(10),
@@ -112,7 +111,7 @@ namespace TaskManager
             {
                 foreach (string name in names)
                 {
-                    myStack.Children.Add(Card(name));
+                    myStack.Children.Add(Card(name, myStack, myStack.Children.Count));
                 }
             }
 
@@ -132,9 +131,9 @@ namespace TaskManager
         }
         private void PlusCard(StackPanel stack)
         {
-            var newCard = Card("Новая карточка");
+            var newCard = Card("Новая карточка", stack, stack.Children.Count - 1);
             stack.Children.Insert(stack.Children.Count - 1, newCard);
-            TaskWindow taskWindow = new TaskWindow(newCard);
+            TaskWindow taskWindow = new TaskWindow(stack, stack.Children.Count - 2);
             taskWindow.Show();
         }
 

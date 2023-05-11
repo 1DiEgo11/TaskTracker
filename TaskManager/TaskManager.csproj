@@ -69,6 +69,7 @@
     <Compile Include="AuthWindow.xaml.cs">
       <DependentUpon>AuthWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Card.cs" />
     <Compile Include="Moving_cards.cs" />
     <Compile Include="Board.cs" />
     <Compile Include="Task.cs" />

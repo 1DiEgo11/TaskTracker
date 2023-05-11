@@ -21,7 +21,7 @@ namespace TaskManager
         public void Move(ScrollViewer content, Window _window)
         {
             window = _window;
-            main_stack = content.Content as StackPanel;
+            main_stack = ((StackPanel)content.Content).Children[1] as StackPanel;
             stack_cards = (StackPanel)((Border)main_stack.Children[0]).Child;
             index_main = 0;
             btn = stack_cards.Children[0] as Button;
