@@ -8,6 +8,9 @@ using System.Windows.Controls;
 using System.Windows.Media.Effects;
 using System.Windows.Media;
 using System.Windows.Input;
+using System.Collections;
+using System.Windows.Documents;
+using System.Xml.Linq;
 
 namespace TaskManager
 {
@@ -16,6 +19,7 @@ namespace TaskManager
         private Button selectedButton;
         private Window window;
         private TextBox newText;
+        private TextBox Texto;
         public ScrollViewer CardSettings(Window window, Button btn)
         {
             selectedButton = btn;
@@ -57,6 +61,12 @@ namespace TaskManager
             newText = Rename;
             window.PreviewKeyDown += ChangeText;
 
+            var Description = new TextBlock
+            {
+                Margin = new Thickness(30, 30, 30, 0),
+                Text = "Описание:",
+                FontSize = 20
+            };
 
             var ChangeColorText = new TextBlock
             {
@@ -67,8 +77,11 @@ namespace TaskManager
         
             stack.Children.Add(RenameText);
             stack.Children.Add(Rename);
+            stack.Children.Add(Description);
+            stack.Children.Add(Descriptione());
             stack.Children.Add(ChangeColorText);
             stack.Children.Add(Horizontal());
+            stack.Children.Add(Delete());
             bord.Child = stack;
             return bord;
         }
@@ -81,48 +94,66 @@ namespace TaskManager
             }
         }
 
+        private TextBox Descriptione()
+        {
+            TextBox Descriptor = new TextBox
+            {
+                HorizontalContentAlignment = HorizontalAlignment.Left,
+                VerticalContentAlignment = VerticalAlignment.Top,
+                TextWrapping = TextWrapping.Wrap,
+                Background = new SolidColorBrush(Colors.Purple),
+                Height = 250,
+                Foreground = new SolidColorBrush(Colors.Azure)
+            };
+            Texto = Descriptor;
+
+            return Descriptor;
+        }
+        
+
         private WrapPanel Horizontal()
         {
             WrapPanel myPanel = new WrapPanel
             {
+                VerticalAlignment = VerticalAlignment.Bottom,
                 Orientation = Orientation.Horizontal
             };
-            var Gray = new Button
-            {
-                Background = new SolidColorBrush(Colors.Gray),
-                Margin = new Thickness(30),
-                Width = 130,
-                Height = 50,
-                Content = "Серый"
-            };
-            Gray.Click += (s, e) => PickColor(Gray.Background);
+            //var Gray = new Button
+            //{
+            //    Background = new SolidColorBrush(Colors.Gray),
+            //    Margin = new Thickness(12.5),
+            //    Width = 120,
+            //    Height = 40,
+            //    Content = "Серый"
+            //};
+            //Gray.Click += (s, e) => PickColor(Gray.Background);
 
             var Purple = new Button
             {
                 Background = new SolidColorBrush(Colors.Purple),
-                Margin = new Thickness(30),
-                Width = 130,
-                Height = 50,
+                Margin = new Thickness(12.5),
+                Width = 120,
+                Height = 40,
                 Content = "Фиолетовый"
             };
             Purple.Click += (s, e) => PickColor(Purple.Background);
 
             var Blue = new Button
             {
-                Background = new SolidColorBrush(Colors.DeepSkyBlue),
-                Margin = new Thickness(30),
-                Width = 130,
-                Height = 50,
-                Content = "Голубой"
+                Background = new SolidColorBrush(Colors.Blue),
+                Margin = new Thickness(12.5),
+                Width = 120,
+                Height = 40,
+                Content = "Синий"
             };
             Blue.Click += (s, e) => PickColor(Blue.Background);
 
             var Red = new Button
             {
                 Background = new SolidColorBrush(Colors.PaleVioletRed),
-                Margin = new Thickness(30),
-                Width = 130,
-                Height = 50,
+                Margin = new Thickness(12.5),
+                Width = 120,
+                Height = 40,
                 Content = "Розовый"
             };
             Red.Click += (s, e) => PickColor(Red.Background);
@@ -130,35 +161,45 @@ namespace TaskManager
             var Green = new Button
             {
                 Background = new SolidColorBrush(Colors.SeaGreen),
-                Margin = new Thickness(30),
-                Width = 130,
-                Height = 50,
+                Margin = new Thickness(12.5),
+                Width = 120,
+                Height = 40,
                 Content = "Зелёный"
             };
             Green.Click += (s, e) => PickColor(Green.Background);
 
-            var Aqumarine = new Button
-            {
-                Background = new SolidColorBrush(Colors.Aquamarine),
-                Margin = new Thickness(30),
-                Width = 130,
-                Height = 50,
-                Content = "Аквамарин"
-            };
-            Aqumarine.Click += (s, e) => PickColor(Aqumarine.Background);
+            //var Aqumarine = new Button
+            //{
+            //    Background = new SolidColorBrush(Colors.Aquamarine),
+            //    Margin = new Thickness(12.5),
+            //    Width = 120,
+            //    Height = 40,
+            //    Content = "Аквамарин"
+            //};
+            //Aqumarine.Click += (s, e) => PickColor(Aqumarine.Background);
 
-            myPanel.Children.Add(Gray);
+            myPanel.Children.Add(Green);
             myPanel.Children.Add(Purple);
             myPanel.Children.Add(Blue);
             myPanel.Children.Add(Red);
-            myPanel.Children.Add(Green);
-            myPanel.Children.Add(Aqumarine);
 
             return myPanel;
         }
         private void PickColor(Brush color)
         {
             selectedButton.Background = color;
+        }
+        private Button Delete()
+        {
+            var Deleter = new Button
+            {
+                Background = new SolidColorBrush(Colors.Red),
+                Margin = new Thickness(30),
+                Width = 120,
+                Height = 40,
+                Content = "Удалить"
+            };
+            return Deleter;
         }
     }
 }
