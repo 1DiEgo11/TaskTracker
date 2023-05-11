@@ -20,13 +20,37 @@ namespace TaskManager
             var myScrollViewer = new ScrollViewer
             {
                 HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
-                Content = a.MyBorder()
+                Content = a.VertStack()
             };
 
             return myScrollViewer;
         }
+        private StackPanel VertStack()
+        {
 
-        private StackPanel MyBorder()
+            var nameBoard = new TextBlock
+            {
+                Margin = new Thickness(4, 5, 30, 0),
+                Text = "Столбцы из ...",
+                FontSize = 20
+            };
+            var chBox = new CheckBox
+            {
+                Content = "Сделать доску общедоступной"
+            };
+            
+            
+            StackPanel panel = new StackPanel
+            {
+                Orientation = Orientation.Vertical
+            };
+            panel.Children.Add(nameBoard);
+            panel.Children.Add(All_Cards());
+            panel.Children.Add(chBox);
+            return panel;
+        }
+
+        private StackPanel All_Cards()
         {
             myStackPanel = new StackPanel
             {
@@ -45,7 +69,9 @@ namespace TaskManager
             myStackPanel.Children.Add(Column(list));
             myStackPanel.Children.Add(Column(list));
             myStackPanel.Children.Add(Column(list));
+            
             myStackPanel.Children.Add(Jopumn());
+            
             return myStackPanel;
         }
         private Button Card(string name)
