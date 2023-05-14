@@ -38,6 +38,7 @@ namespace TaskManager
         
         private Border Stack(StackPanel stack)
         {
+            stack.Orientation=Orientation.Vertical;
             Border bord = new Border
             {
                 Width = 1200,
@@ -48,13 +49,33 @@ namespace TaskManager
                 CornerRadius = new CornerRadius(5),
                 Effect = new DropShadowEffect { BlurRadius = 30, Color = Colors.Black, ShadowDepth = 0 }
             };
-
+            
             var MyText = new TextBlock
             {
-                Margin = new Thickness(30, 30, 30, 0),
+                Margin = new Thickness(30, 15, 15, 0),
                 Text = "Все доступные вам доски",
                 FontSize = 20
             };
+
+            Button btn = new Button
+            {
+                 Content = "Меню",
+                 Margin = new Thickness(30,30,15,0),
+                 Width= 100,
+                 Height = 30,
+                 HorizontalAlignment = HorizontalAlignment.Left,
+            };
+            
+            ContextMenu menu = new ContextMenu();
+            MenuItem mi = new MenuItem();
+            mi.Header = "Смена пользователя";
+            MenuItem mia = new MenuItem();
+            mia.Header = "Выйти";
+            menu.Items.Add(mi);
+            menu.Items.Add(mia);
+            btn.ContextMenu = menu;
+        
+            stack.Children.Add(btn);
             stack.Children.Add(MyText);
             stack.Children.Add(Column());
             bord.Child = stack;
@@ -115,22 +136,11 @@ namespace TaskManager
             myPanel.Children.Add(Create());
             myPanel.Children.Add(Create());
             myPanel.Children.Add(Create());
-            myPanel.Children.Add(Create());
-            myPanel.Children.Add(Create());
-            myPanel.Children.Add(Create());
-            myPanel.Children.Add(Create());
-            myPanel.Children.Add(Create());
-            myPanel.Children.Add(Create());
-            myPanel.Children.Add(Create());
-            myPanel.Children.Add(Create());
-            myPanel.Children.Add(Create());
-            myPanel.Children.Add(Create());
-            myPanel.Children.Add(Create());
-            myPanel.Children.Add(Create());
             myPanel.Children.Add(button_Add);
             
             return myPanel;
         }
+
 
         private void OpenDesk(object sender, RoutedEventArgs e)
         {
