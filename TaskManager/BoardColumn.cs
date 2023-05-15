@@ -11,23 +11,46 @@ using System.Windows.Media.Effects;
 
 namespace TaskManager
 {
-    internal class Test
+    internal class BoardColumn
     {
         private StackPanel myStackPanel;
         public static ScrollViewer Draw_Stack()
         {
-            var a = new Test();
+            var a = new BoardColumn();
             var myScrollViewer = new ScrollViewer
             {
-                HorizontalScrollBarVisibility = ScrollBarVisibility.Auto
+                HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
+                Content = a.VertStack()
             };
-
-            myScrollViewer.Content = a.MyBorder();
 
             return myScrollViewer;
         }
+        private StackPanel VertStack()
+        {
 
-        private StackPanel MyBorder()
+            var nameBoard = new TextBlock
+            {
+                Margin = new Thickness(4, 5, 30, 0),
+                Text = "Столбцы из ...",
+                FontSize = 20
+            };
+
+            var chBox = new CheckBox
+            {
+                Content = "Сделать доску общедоступной"
+            };
+            
+            StackPanel panel = new StackPanel
+            {
+                Orientation = Orientation.Vertical
+            };
+            panel.Children.Add(nameBoard);
+            panel.Children.Add(All_Cards());
+            panel.Children.Add(chBox);
+            return panel;
+        }
+
+        private StackPanel All_Cards()
         {
             myStackPanel = new StackPanel
             {
@@ -36,22 +59,42 @@ namespace TaskManager
 
             myStackPanel = Stack();
 
-            //move_button.Click += (s, a) => Moving_cards.Move(myStackPanel); 
-
             return myStackPanel;
         }
-  
         private StackPanel Stack()
         { 
-            myStackPanel.Children.Add(Column());
-            myStackPanel.Children.Add(Column());
-            myStackPanel.Children.Add(Column());
-            myStackPanel.Children.Add(Column());
+            List<string> list = new List<string>{"Сделать кушать", "Поспать"};
+            myStackPanel.Children.Add(Column(null));
+            myStackPanel.Children.Add(Column(null));
+            myStackPanel.Children.Add(Column(null));
+            
             myStackPanel.Children.Add(Jopumn());
+            
             return myStackPanel;
         }
-        private static Border Column()
+        private Button Card(string name, StackPanel cards, int index)
         {
+            var task = new Button
+            {
+                Background = new SolidColorBrush(Colors.Blue),
+                Margin = new Thickness(10),
+                Width = 225,
+                Height = 40,
+                Content = name
+            };
+            task.Click += (s, e) => Task_Click(cards, index);
+            return task;
+        }
+
+        private void Task_Click(StackPanel cards, int index)
+        {
+            TaskWindow taskWindow = new TaskWindow(cards, index);
+            taskWindow.Show();
+        }
+
+        private Border Column(List<string> names)
+        {
+            
             Border bord = new Border
             {
                 Margin = new Thickness(10),
@@ -64,40 +107,36 @@ namespace TaskManager
             };
 
             StackPanel myStack = new StackPanel();
-
-            var WhatToDo = new Button
+            if (names != null)
             {
-                Background = new SolidColorBrush(Colors.Blue),
-                Margin = new Thickness(10),
-                Width = 225,
-                Height = 40,
-                Content = "Сделать покушать!"
-            };
+                foreach (string name in names)
+                {
+                    myStack.Children.Add(Card(name, myStack, myStack.Children.Count));
+                }
+            }
 
-            var WhatToDo2 = new Button
-            {
-                Background = new SolidColorBrush(Colors.Blue),
-                Margin = new Thickness(10),
-                Width = 225,
-                Height = 40,
-                Content = "Скушать кушанье!"
-            };
-
-            var Plus = new Button
+            var plus = new Button
             {
                 Margin = new Thickness(20),
                 Width = 225,
                 Height = 40,
                 Content = "+ Карточка"
             };
+            plus.Click += (s, e) => PlusCard(myStack);
 
-            myStack.Children.Add(WhatToDo);
-            myStack.Children.Add(WhatToDo2);
-            myStack.Children.Add(Plus);
+            myStack.Children.Add(plus);
             bord.Child = myStack;
 
             return bord;
         }
+        private void PlusCard(StackPanel stack)
+        {
+            var newCard = Card("Новая карточка", stack, stack.Children.Count - 1);
+            stack.Children.Insert(stack.Children.Count - 1, newCard);
+            TaskWindow taskWindow = new TaskWindow(stack, stack.Children.Count - 2);
+            taskWindow.Show();
+        }
+
         private Border Jopumn()
         {
             Border Man = new Border
@@ -131,7 +170,7 @@ namespace TaskManager
         {
             if (myStackPanel.Children.Count - 1 < 10)
             {
-                myStackPanel.Children.Insert(myStackPanel.Children.Count - 2, Column());
+                myStackPanel.Children.Insert(myStackPanel.Children.Count - 1, Column(null));
                 if(myStackPanel.Children.Count - 1 == 10)
                     myStackPanel.Children.RemoveAt(myStackPanel.Children.Count - 1);
             }

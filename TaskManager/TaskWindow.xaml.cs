@@ -15,29 +15,17 @@ using System.Windows.Shapes;
 namespace TaskManager
 {
     /// <summary>
-    /// Логика взаимодействия для UserPageWindow.xaml
+    /// Логика взаимодействия для TaskWindow.xaml
     /// </summary>
-    public partial class UserPageWindow : Window
+    public partial class TaskWindow : Window
     {
-        public UserPageWindow()
+        public TaskWindow(StackPanel cards, int index)
         {
             InitializeComponent();
-
-            var d = new Board();
+            var d = new Task();
             Background = new SolidColorBrush(Colors.LightGray);
-            Content = d.Draw_Stack(this);
+            Content = d.CardSettings(this, cards, index);
             Show();
-
-            PreviewKeyDown += Key_down;
-        }
-
-        private void Key_down(object sender, KeyEventArgs e)
-        {
-           var m = new Moving_cards();
-           if(e.Key == Key.P) 
-           {
-                m.Move(Content as ScrollViewer, this);
-           }
         }
     }
 }
