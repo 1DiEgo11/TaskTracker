@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Media.Animation;
 using MaterialDesignThemes.Wpf.Transitions;
 using System.Windows.Documents;
+using System.ComponentModel.Design;
 
 namespace TaskManager
 {
@@ -52,20 +53,20 @@ namespace TaskManager
             
             var MyText = new TextBlock
             {
-                Margin = new Thickness(30, 15, 15, 0),
+                Margin = new Thickness(60, 15, 15, 0),
                 Text = "Все доступные вам доски",
                 FontSize = 20
             };
 
             Button btn = new Button
             {
-                 Content = "Меню",
-                 Margin = new Thickness(30,30,15,0),
-                 Width= 100,
-                 Height = 30,
-                 HorizontalAlignment = HorizontalAlignment.Left,
+                Content = "Меню",
+                Margin = new Thickness(60, 30, 15, 0),
+                Width = 100,
+                Height = 30,
+                HorizontalAlignment = HorizontalAlignment.Left,
             };
-            
+
             ContextMenu menu = new ContextMenu();
             MenuItem mi = new MenuItem();
             mi.Header = "Смена пользователя";
@@ -73,6 +74,9 @@ namespace TaskManager
             mia.Header = "Выйти";
             menu.Items.Add(mi);
             menu.Items.Add(mia);
+            mia.Click += Exit;
+            mi.Click += ChangePerson;
+
             btn.ContextMenu = menu;
         
             stack.Children.Add(btn);
@@ -81,19 +85,26 @@ namespace TaskManager
             bord.Child = stack;
             return bord;
         }
-
+        
         private Button Create()
         {
+            
+            var Text = new TextBox
+            {
+                Width = 70,
+                Text ="Доска 1",
+            };
             var myCart = new Button
             {
                 Background = new SolidColorBrush(Colors.Gray),
                 Margin = new Thickness(30),
                 Width = 100,
                 Height = 100,
-                FontSize = 30,
-                Content = "+"
+                Content = Text
             };
             myCart.Click += OpenDesk;
+
+            
             return myCart;
         }
 
@@ -103,7 +114,13 @@ namespace TaskManager
             {
                 VerticalAlignment = VerticalAlignment.Top,
                 Orientation = Orientation.Horizontal,
-                HorizontalAlignment = HorizontalAlignment.Left
+                HorizontalAlignment = HorizontalAlignment.Center
+
+            };
+            var Text = new TextBox
+            {
+                Width = 70,
+                Text = "Доска 1",
             };
 
             var myCart = new Button
@@ -112,8 +129,7 @@ namespace TaskManager
                 Margin = new Thickness(30),
                 Width = 100,
                 Height = 100,
-                FontSize = 30,
-                Content = "+"
+                Content = Text
             };
             myCart.Click += OpenDesk;
 
@@ -122,11 +138,12 @@ namespace TaskManager
                 Margin = new Thickness(30),
                 Width = 100,
                 Height = 100,
-                Content = "+ Доска"
+                FontSize = 30,
+                Content = "+"
             };
 
-
             
+            myPanel.Children.Add(button_Add);
             myPanel.Children.Add(myCart);
             myPanel.Children.Add(Create());
             myPanel.Children.Add(Create());
@@ -136,7 +153,6 @@ namespace TaskManager
             myPanel.Children.Add(Create());
             myPanel.Children.Add(Create());
             myPanel.Children.Add(Create());
-            myPanel.Children.Add(button_Add);
             
             return myPanel;
         }
@@ -145,6 +161,18 @@ namespace TaskManager
         private void OpenDesk(object sender, RoutedEventArgs e)
         {
             window.Content = BoardColumn.Draw_Stack();
+        }
+
+        private void Exit(object sender, RoutedEventArgs e)
+        {
+            Environment.Exit(0);
+        }
+
+        private void ChangePerson(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            window.Close();        
         }
     }
 }
