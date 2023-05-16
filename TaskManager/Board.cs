@@ -170,8 +170,8 @@ namespace TaskManager
 
         private void ChangePerson(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.Show();
+            AuthWindow new_window = new AuthWindow();
+            new_window.Show();
             window.Close();        
         }
     }
