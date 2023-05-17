@@ -1,12 +1,12 @@
-﻿using read;
+﻿//using read;
 using System.Collections.Generic;
 //using System.ComponentModel.DataAnnotations.Schema;
 using System.Globalization;
 using System.IO;
 using System.Text.Json;
+//using Newtonsoft.Json;
 
-
-namespace read
+namespace TaskManager
 {
 
     public class User
@@ -34,7 +34,7 @@ namespace read
         public Desk(int access, int[] whitelist, string name)
         {
             this.access = access;
-            this.whitelist = whitelist;
+                this.whitelist = whitelist;
             this.name = name;
             //column = null;
         }
@@ -42,7 +42,7 @@ namespace read
     public class Column
     {
         public string name { get; set; }
-        public List<Card> cards { get; set; }
+        public List<Cards> cards { get; set; }
         public Column(string name)
         {
             this.name = name;
@@ -50,12 +50,12 @@ namespace read
         }
     }
 
-    public class Card
+    public class Cards
     {
         public string name { get; set; }
         public string description { get; set; }
         public string colour { get; set; }
-        public Card(string name, string description)
+        public Cards(string name, string description)
         {
             this.name = name;
             this.description = description;
