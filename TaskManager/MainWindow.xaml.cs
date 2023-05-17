@@ -41,7 +41,7 @@ namespace TaskManager
             string pass_2 = passBox_2.Password.Trim();
             string email = emailBox.Text.Trim();
             
-            if(login.Length < 5)
+            if(login.Length < 5 || !checks.CheckingForEngaged(login) || !checks.Check_Login(login))
             {   
                 TextBoxLogin.ToolTip = "Поле введено не коректно";
                 TextBoxLogin.Background = Brushes.OrangeRed;
@@ -51,7 +51,7 @@ namespace TaskManager
                 TextBoxLogin.ToolTip = "";
                 TextBoxLogin.Background = Brushes.Transparent;
             }
-            if (pass.Length < 5)
+            if (pass.Length < 5 || !checks.Check_newPassword(pass))
             {
                 passBox.ToolTip = "Поле введено не коректно";
                 passBox.Background = Brushes.OrangeRed;
@@ -83,7 +83,7 @@ namespace TaskManager
             }
             if(TextBoxLogin.Background == Brushes.Transparent && passBox.Background == Brushes.Transparent && passBox_2.Background == Brushes.Transparent && emailBox.Background == Brushes.Transparent)
             {
-                User user = new User(Read.GetId(),login, pass, email);
+                Create.Reg(login, pass, email);
                 MessageBox.Show("Вы успешно зарегестрировались!");
                 UserPageWindow userPageWindow = new UserPageWindow();
                 userPageWindow.Show();
