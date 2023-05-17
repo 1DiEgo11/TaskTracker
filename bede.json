@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "login": "test",
+    "password": "123aadA",
+    "email": "123@mail.ru",
+    "desk": [
+      {
+        "access": 1,
+        "whitelist": [ 1 ],
+        "name": "apchi",
+        "column": [
+          {
+            "name": "col",
+            "cards": [
+              {
+                "name": "cas",
+                "description": "eat",
+                "colour": "#000fff"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "login": "sdfs",
+    "password": "1sdSDdA",
+    "email": "1efs@mail.ru",
+    "desk": [
+      {
+        "access": 0,
+        "whitelist": [ 1, 2 ],
+        "name": "dfhi",
+        "column": [
+          {
+            "name": "card1",
+            "cards": [
+              {
+                "name": "fss",
+                "description": "lol",
+                "colour": "#000fff"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
