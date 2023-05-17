@@ -19,13 +19,13 @@ namespace TaskManager
     /// </summary>
     public partial class UserPageWindow : Window
     {
-        public UserPageWindow()
+        public UserPageWindow(User user)
         {
             InitializeComponent();
 
             var d = new Board();
             Background = new SolidColorBrush(Colors.LightGray);
-            Content = d.Draw_Stack(this);
+            Content = d.Window_with_bords(this, Read.Reading(), user);
             Show();
 
             PreviewKeyDown += Key_down;

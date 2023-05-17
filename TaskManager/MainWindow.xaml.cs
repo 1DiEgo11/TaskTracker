@@ -85,7 +85,7 @@ namespace TaskManager
             {
                 User user = new User(Read.GetId(),login, pass, email);
                 MessageBox.Show("Вы успешно зарегестрировались!");
-                UserPageWindow userPageWindow = new UserPageWindow();
+                UserPageWindow userPageWindow = new UserPageWindow(user);
                 userPageWindow.Show();
                 Close();
             }

@@ -123,7 +123,6 @@
       <DependentUpon>TaskWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="BoardColumn.cs" />
-    <Compile Include="User.cs" />
     <Compile Include="UserPageWindow.xaml.cs">
       <DependentUpon>UserPageWindow.xaml</DependentUpon>
     </Compile>

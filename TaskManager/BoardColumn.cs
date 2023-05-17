@@ -14,8 +14,14 @@ namespace TaskManager
     internal class BoardColumn
     {
         private StackPanel myStackPanel;
-        public static ScrollViewer Draw_Stack()
+        private List<User> users;
+        private List<Column> col;
+        private string nameB;
+        public ScrollViewer Draw_Stack(List<User> _users, List<Column> columns, string name_of_board)
         {
+            users = _users;
+            col = columns;
+            nameB = name_of_board;
             var a = new BoardColumn();
             var myScrollViewer = new ScrollViewer
             {
@@ -27,26 +33,20 @@ namespace TaskManager
         }
         private StackPanel VertStack()
         {
-
             var nameBoard = new TextBlock
             {
                 Margin = new Thickness(4, 5, 30, 0),
-                Text = "Столбцы из ...",
+                Text = "Столбцы из " + nameB,
                 FontSize = 20
             };
 
-            var chBox = new CheckBox
-            {
-                Content = "Сделать доску общедоступной"
-            };
-            
             StackPanel panel = new StackPanel
             {
                 Orientation = Orientation.Vertical
             };
+
             panel.Children.Add(nameBoard);
             panel.Children.Add(All_Cards());
-            panel.Children.Add(chBox);
             return panel;
         }
 
@@ -64,15 +64,16 @@ namespace TaskManager
         private StackPanel Stack()
         { 
             List<string> list = new List<string>{"Сделать кушать", "Поспать"};
-            myStackPanel.Children.Add(Column(null));
-            myStackPanel.Children.Add(Column(null));
-            myStackPanel.Children.Add(Column(null));
+            foreach (var c in col)
+            {
+                myStackPanel.Children.Add(Column(c.cards));
+            }
             
             myStackPanel.Children.Add(Jopumn());
             
             return myStackPanel;
         }
-        private Button Card(string name, StackPanel cards, int index)
+        private Button Card(Cards card, StackPanel cards, int index)
         {
             var task = new Button
             {
@@ -80,19 +81,19 @@ namespace TaskManager
                 Margin = new Thickness(10),
                 Width = 225,
                 Height = 40,
-                Content = name
+                Content = card.name
             };
-            task.Click += (s, e) => Task_Click(cards, index);
+            task.Click += (s, e) => Task_Click(cards, index, card);
             return task;
         }
 
-        private void Task_Click(StackPanel cards, int index)
+        private void Task_Click(StackPanel cards, int index, Cards card)
         {
-            TaskWindow taskWindow = new TaskWindow(cards, index);
+            TaskWindow taskWindow = new TaskWindow(cards, index, card);
             taskWindow.Show();
         }
 
-        private Border Column(List<string> names)
+        private Border Column(List<Cards> cards_all)
         {
             
             Border bord = new Border
@@ -107,11 +108,11 @@ namespace TaskManager
             };
 
             StackPanel myStack = new StackPanel();
-            if (names != null)
+            if (cards_all != null)
             {
-                foreach (string name in names)
+                foreach (var card in cards_all)
                 {
-                    myStack.Children.Add(Card(name, myStack, myStack.Children.Count));
+                    myStack.Children.Add(Card(card, myStack, myStack.Children.Count));
                 }
             }
 
@@ -133,7 +134,7 @@ namespace TaskManager
         {
             var newCard = Card("Новая карточка", stack, stack.Children.Count - 1);
             stack.Children.Insert(stack.Children.Count - 1, newCard);
-            TaskWindow taskWindow = new TaskWindow(stack, stack.Children.Count - 2);
+            TaskWindow taskWindow = new TaskWindow(stack, stack.Children.Count - 2, newCard);
             taskWindow.Show();
         }
 

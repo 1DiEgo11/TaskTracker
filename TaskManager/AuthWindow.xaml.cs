@@ -51,8 +51,15 @@ namespace TaskManager
             }
             if (TextBoxLogin.Background == Brushes.Transparent && passBox.Background == Brushes.Transparent && checks.Login(login, pass))
             {
-                MessageBox.Show("Вы успешно вошли!");
-                UserPageWindow userPageWindow = new UserPageWindow();
+                User user = null;
+                foreach (var user1 in Read.Reading()) {
+                    if(user1.login == login && user1.password == pass)
+                    {
+                        user = user1;
+                    }
+                }
+                
+                UserPageWindow userPageWindow = new UserPageWindow(user);
                 userPageWindow.Show();
                 Close();
             }

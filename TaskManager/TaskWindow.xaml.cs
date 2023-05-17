@@ -19,12 +19,12 @@ namespace TaskManager
     /// </summary>
     public partial class TaskWindow : Window
     {
-        public TaskWindow(StackPanel cards, int index)
+        public TaskWindow(StackPanel cards, int index, Cards card)
         {
             InitializeComponent();
             var d = new Task();
             Background = new SolidColorBrush(Colors.LightGray);
-            Content = d.CardSettings(this, cards, index);
+            Content = d.CardSettings(this, cards, index, card);
             Show();
         }
     }

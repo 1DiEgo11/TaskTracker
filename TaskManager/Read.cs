@@ -1,9 +1,8 @@
-﻿//using read;
-using System.Collections.Generic;
-//using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text.Json;
+using System.Windows.Controls;
 //using Newtonsoft.Json;
 
 namespace TaskManager
@@ -52,6 +51,7 @@ namespace TaskManager
 
     public class Cards
     {
+        private Button btn;
         public string name { get; set; }
         public string description { get; set; }
         public string colour { get; set; }
@@ -66,18 +66,16 @@ namespace TaskManager
     {
         public static List<User> Reading()
         {
-            string pathToJson = @"C:\Users\Tessia\Desktop\bede.json";
+            string pathToJson = @"C:\Users\asus\source\repos\TaskManager_All\bede.json";
 
             string json = File.ReadAllText(pathToJson);
-            //Console.WriteLine(json);
 
             List<User> user = JsonSerializer.Deserialize<List<User>>(json);
-            //Console.WriteLine(user[0].login);
             return user;
         }
         public static void Write(List<User> users)
         {
-            using (StreamWriter fstream = new StreamWriter(@"C:\Users\Tessia\Desktop\bede.json"))
+            using (StreamWriter fstream = new StreamWriter(@"C:\Users\asus\source\repos\TaskManager_All\bede.json"))
             {
                 string json = JsonSerializer.Serialize<List<User>>(users);
                 fstream.Write(json);

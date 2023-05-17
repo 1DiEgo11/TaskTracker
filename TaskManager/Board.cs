@@ -17,27 +17,26 @@ namespace TaskManager
     internal class Board
     {
         private Window window;
-        public ScrollViewer Draw_Stack(Window window)
+        private List<User> users;
+        private User user;
+        public ScrollViewer Window_with_bords(Window window, List<User> _users, User user)
         {
-            StackPanel myStackPanel = new StackPanel();
+            this.user = user;
+            users = _users;
             this.window = window;
+
+            StackPanel myStackPanel = new StackPanel();
+            
             var myScrollViewer = new ScrollViewer
             {
                 HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
-                Content = Stack(myStackPanel)
+                Content = Main_Stack(myStackPanel)
             };
 
             return myScrollViewer;
         }
 
-        //private StackPanel MyBorder()
-        //{
-        //    StackPanel myStackPanel = new StackPanel();
-        //    myStackPanel = Stack(myStackPanel);
-        //    return myStackPanel;
-        //} 
-        
-        private Border Stack(StackPanel stack)
+        private Border Main_Stack(StackPanel stack)
         {
             stack.Orientation=Orientation.Vertical;
             Border bord = new Border
@@ -81,18 +80,17 @@ namespace TaskManager
         
             stack.Children.Add(btn);
             stack.Children.Add(MyText);
-            stack.Children.Add(Column());
+            stack.Children.Add(Bords());
             bord.Child = stack;
             return bord;
         }
         
-        private Button Create()
+        private Button Create_bord(string name, List<Column> columns)
         {
-            
             var Text = new TextBox
             {
                 Width = 70,
-                Text ="Доска 1",
+                Text = name,
             };
             var myCart = new Button
             {
@@ -102,13 +100,12 @@ namespace TaskManager
                 Height = 100,
                 Content = Text
             };
-            myCart.Click += OpenDesk;
+            myCart.Click += (s, e) => OpenDesk(columns, name);
 
-            
             return myCart;
         }
 
-        private WrapPanel Column()
+        private WrapPanel Bords()
         {
             WrapPanel myPanel = new WrapPanel
             {
@@ -117,21 +114,6 @@ namespace TaskManager
                 HorizontalAlignment = HorizontalAlignment.Center
 
             };
-            var Text = new TextBox
-            {
-                Width = 70,
-                Text = "Доска 1",
-            };
-
-            var myCart = new Button
-            {
-                Background = new SolidColorBrush(Colors.Gray),
-                Margin = new Thickness(30),
-                Width = 100,
-                Height = 100,
-                Content = Text
-            };
-            myCart.Click += OpenDesk;
 
             var button_Add = new Button
             {
@@ -143,24 +125,31 @@ namespace TaskManager
             };
 
             
+            foreach (var user in users)
+            {
+                foreach(var bord in user.desk)
+                {
+                    if (bord.access == 1)
+                    {
+                        myPanel.Children.Add(Create_bord(bord.name, bord.column));
+                    }
+                    if (bord.access == 0 && bord.whitelist.Contains(this.user.id))
+                    {
+                        myPanel.Children.Add(Create_bord(bord.name, bord.column));
+                    }
+                }
+            }
+            
             myPanel.Children.Add(button_Add);
-            myPanel.Children.Add(myCart);
-            myPanel.Children.Add(Create());
-            myPanel.Children.Add(Create());
-            myPanel.Children.Add(Create());
-            myPanel.Children.Add(Create());
-            myPanel.Children.Add(Create());
-            myPanel.Children.Add(Create());
-            myPanel.Children.Add(Create());
-            myPanel.Children.Add(Create());
             
             return myPanel;
         }
 
 
-        private void OpenDesk(object sender, RoutedEventArgs e)
+        private void OpenDesk(List<Column> columns, string name)
         {
-            window.Content = BoardColumn.Draw_Stack();
+            var a = new BoardColumn();
+            window.Content = a.Draw_Stack(users, columns, name);
         }
 
         private void Exit(object sender, RoutedEventArgs e)

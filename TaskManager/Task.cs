@@ -22,8 +22,11 @@ namespace TaskManager
         private Window window;
         private TextBox newText;
         private TextBox Texto;
-        public ScrollViewer CardSettings(Window window, StackPanel stack ,int index)
+        private Cards crd;
+        
+        public ScrollViewer CardSettings(Window window, StackPanel stack ,int index, Cards card)
         {
+            crd = card;
             cards = stack;
             this.index = index;
             selectedButton = (Button)stack.Children[index];
@@ -163,16 +166,6 @@ namespace TaskManager
                 Content = "Зелёный"
             };
             Green.Click += (s, e) => PickColor(Green.Background);
-
-            //var Aqumarine = new Button
-            //{
-            //    Background = new SolidColorBrush(Colors.Aquamarine),
-            //    Margin = new Thickness(12.5),
-            //    Width = 120,
-            //    Height = 40,
-            //    Content = "Аквамарин"
-            //};
-            //Aqumarine.Click += (s, e) => PickColor(Aqumarine.Background);
 
             myPanel.Children.Add(Green);
             myPanel.Children.Add(Purple);

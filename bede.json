@@ -1,8 +1,8 @@
 [
   {
     "id": 1,
-    "login": "test",
-    "password": "123aadA",
+    "login": "Admin",
+    "password": "Admin123",
     "email": "123@mail.ru",
     "desk": [
       {
@@ -26,13 +26,13 @@
   },
   {
     "id": 2,
-    "login": "sdfs",
-    "password": "1sdSDdA",
+    "login": "Egor",
+    "password": "Egor",
     "email": "1efs@mail.ru",
     "desk": [
       {
         "access": 0,
-        "whitelist": [ 1, 2 ],
+        "whitelist": [ 2 ],
         "name": "dfhi",
         "column": [
           {
