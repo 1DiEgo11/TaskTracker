@@ -58,7 +58,6 @@ namespace TaskManager
                         user = user1;
                     }
                 }
-                
                 UserPageWindow userPageWindow = new UserPageWindow(user);
                 userPageWindow.Show();
                 Close();

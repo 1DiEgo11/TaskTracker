@@ -83,7 +83,7 @@ namespace TaskManager
             }
             if(TextBoxLogin.Background == Brushes.Transparent && passBox.Background == Brushes.Transparent && passBox_2.Background == Brushes.Transparent && emailBox.Background == Brushes.Transparent)
             {
-                Create.Reg(login, pass, email);
+                User user = Create.Reg(login, pass, email);
                 MessageBox.Show("Вы успешно зарегестрировались!");
                 UserPageWindow userPageWindow = new UserPageWindow(user);
                 userPageWindow.Show();

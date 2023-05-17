@@ -24,7 +24,7 @@ namespace TaskManager
             InitializeComponent();
             var d = new Task();
             Background = new SolidColorBrush(Colors.LightGray);
-            Content = d.CardSettings(this, cards, index, card);
+            Content = d.CardSettings(this, cards, card);
             Show();
         }
     }

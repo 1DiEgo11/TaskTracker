@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using MaterialDesignThemes.Wpf;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text.Json;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 //using Newtonsoft.Json;
 
 namespace TaskManager
@@ -33,7 +36,7 @@ namespace TaskManager
         public Desk(int access, int[] whitelist, string name)
         {
             this.access = access;
-                this.whitelist = whitelist;
+            this.whitelist = whitelist;
             this.name = name;
             //column = null;
         }
@@ -51,7 +54,7 @@ namespace TaskManager
 
     public class Cards
     {
-        private Button btn;
+        public Button btn;
         public string name { get; set; }
         public string description { get; set; }
         public string colour { get; set; }
@@ -60,6 +63,14 @@ namespace TaskManager
             this.name = name;
             this.description = description;
             colour = "#000fff";
+            btn = new Button()
+            {
+                Background = new SolidColorBrush(Colors.Blue),
+                Margin = new Thickness(10),
+                Width = 225,
+                Height = 40,
+                Content = name
+            };
         }
     }
     public class Read

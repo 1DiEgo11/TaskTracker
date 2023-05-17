@@ -22,11 +22,11 @@ namespace TaskManager
             users = _users;
             col = columns;
             nameB = name_of_board;
-            var a = new BoardColumn();
+
             var myScrollViewer = new ScrollViewer
             {
                 HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
-                Content = a.VertStack()
+                Content = VertStack()
             };
 
             return myScrollViewer;
@@ -46,11 +46,11 @@ namespace TaskManager
             };
 
             panel.Children.Add(nameBoard);
-            panel.Children.Add(All_Cards());
+            panel.Children.Add(All_Coloum());
             return panel;
         }
 
-        private StackPanel All_Cards()
+        private StackPanel All_Coloum()
         {
             myStackPanel = new StackPanel
             {
@@ -62,29 +62,15 @@ namespace TaskManager
             return myStackPanel;
         }
         private StackPanel Stack()
-        { 
-            List<string> list = new List<string>{"Сделать кушать", "Поспать"};
+        {
             foreach (var c in col)
             {
                 myStackPanel.Children.Add(Column(c.cards));
             }
-            
+
             myStackPanel.Children.Add(Jopumn());
             
             return myStackPanel;
-        }
-        private Button Card(Cards card, StackPanel cards, int index)
-        {
-            var task = new Button
-            {
-                Background = new SolidColorBrush(Colors.Blue),
-                Margin = new Thickness(10),
-                Width = 225,
-                Height = 40,
-                Content = card.name
-            };
-            task.Click += (s, e) => Task_Click(cards, index, card);
-            return task;
         }
 
         private void Task_Click(StackPanel cards, int index, Cards card)
@@ -112,7 +98,8 @@ namespace TaskManager
             {
                 foreach (var card in cards_all)
                 {
-                    myStack.Children.Add(Card(card, myStack, myStack.Children.Count));
+                    card.btn.Click += (s, e) => Task_Click(myStack, myStack.Children.Count, card);
+                    myStack.Children.Add(card.btn);
                 }
             }
 
@@ -132,8 +119,9 @@ namespace TaskManager
         }
         private void PlusCard(StackPanel stack)
         {
-            var newCard = Card("Новая карточка", stack, stack.Children.Count - 1);
-            stack.Children.Insert(stack.Children.Count - 1, newCard);
+            var newCard = new Cards("Новая карточка", null);
+            newCard.btn.Click += (s, e) => Task_Click(stack, stack.Children.Count - 1, newCard);
+            stack.Children.Insert(stack.Children.Count - 1, newCard.btn);
             TaskWindow taskWindow = new TaskWindow(stack, stack.Children.Count - 2, newCard);
             taskWindow.Show();
         }

@@ -18,18 +18,16 @@ namespace TaskManager
     {
         private Button selectedButton;
         private StackPanel cards;
-        private int index;
         private Window window;
         private TextBox newText;
         private TextBox Texto;
         private Cards crd;
         
-        public ScrollViewer CardSettings(Window window, StackPanel stack ,int index, Cards card)
+        public ScrollViewer CardSettings(Window window, StackPanel stack, Cards card)
         {
             crd = card;
             cards = stack;
-            this.index = index;
-            selectedButton = (Button)stack.Children[index];
+            selectedButton = card.btn;
             this.window = window;
             StackPanel myStackPanel = new StackPanel();
             var myScrollViewer = new ScrollViewer
@@ -194,7 +192,14 @@ namespace TaskManager
 
         private void Deleter_Click(object sender, RoutedEventArgs e)
         {
-            cards.Children.RemoveAt(index);
+            for (int i = 0; i < cards.Children.Count; i++)
+            {
+                var card = cards.Children[i];
+                if(card == crd.btn)
+                {
+                    cards.Children.RemoveAt(i);
+                }
+            }
             window.Close();
         }
     }
