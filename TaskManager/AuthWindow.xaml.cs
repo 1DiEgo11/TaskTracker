@@ -29,7 +29,7 @@ namespace TaskManager
             string login = TextBoxLogin.Text.Trim();
             string pass = passBox.Password.Trim();
 
-            if (login.Length < 5 && checks.CheckingForEngaged(login))
+            if (login.Length < 5 || (checks.CheckingForEngaged(login)))
             {
                 TextBoxLogin.ToolTip = "Поле введено не коректно";
                 TextBoxLogin.Background = Brushes.OrangeRed;
@@ -39,7 +39,7 @@ namespace TaskManager
                 TextBoxLogin.ToolTip = "";
                 TextBoxLogin.Background = Brushes.Transparent;
             }
-            if (pass.Length < 5 && checks.Log(pass)=="Not found")
+            if (pass.Length < 5 || checks.Log(pass) == "Not found")
             {
                 passBox.ToolTip = "Поле введено не коректно";
                 passBox.Background = Brushes.OrangeRed;
@@ -49,7 +49,7 @@ namespace TaskManager
                 passBox.ToolTip = "";
                 passBox.Background = Brushes.Transparent;
             }
-            if (TextBoxLogin.Background == Brushes.Transparent && passBox.Background == Brushes.Transparent && checks.Login(login, pass))
+            if (checks.Login(login, pass))
             {
                 User user = null;
                 foreach (var user1 in Read.Reading()) {
