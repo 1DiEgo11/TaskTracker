@@ -1,8 +1,8 @@
-﻿using Checks;
-using read;
+﻿using TaskManager;
+//using ;
 using System.Collections.Generic;
 
-namespace create
+namespace TaskManager
 {
     public class Create
     {
@@ -11,7 +11,7 @@ namespace create
             List<User> users = Read.Reading();
             int number = user.desk[desk].column[column].cards.Count + 1;
             string name = "Card" + number.ToString();
-            Card card = new Card(name, "Оцените наше приложение в Play Market!");
+            Cards card = new Cards(name, "Оцените наше приложение в Play Market!");
             user.desk[desk].column[column].cards.Add(card);
             Read.Write(users);
         }

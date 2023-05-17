@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using read;
-namespace Checks
+//using read;
+namespace TaskManager
 {
     public class checks
     {
         public static bool Check_Login(string username)
         {
-            Regex login_regex = new("^[a-zA-Zа-яА-Я][a-zA-Zа-яА-Я0-9]{2,9}$");
+            Regex login_regex = new Regex("^[a-zA-Zа-яА-Я][a-zA-Zа-яА-Я0-9]{2,9}$");
 
             if (login_regex.Match(username).Success) // если совпадение удачно
             {
@@ -21,7 +21,7 @@ namespace Checks
 
         public static bool Check_newPassword(string username)
         {
-            Regex login_regex = new("^[a-zA-Zа-яА-Я][a-zA-Zа-яА-Я0-9]{4,9}$");
+            Regex login_regex = new Regex("^[a-zA-Zа-яА-Я][a-zA-Zа-яА-Я0-9]{4,9}$");
 
             if (login_regex.Match(username).Success) // если совпадение удачно
             {
