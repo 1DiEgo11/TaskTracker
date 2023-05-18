@@ -108,7 +108,8 @@ namespace TaskManager
                 TextWrapping = TextWrapping.Wrap,
                 Background = new SolidColorBrush(Colors.Purple),
                 Height = 250,
-                Foreground = new SolidColorBrush(Colors.Azure)
+                Foreground = new SolidColorBrush(Colors.Azure),
+                Text = crd.description
             };
             Texto = Descriptor;
 
