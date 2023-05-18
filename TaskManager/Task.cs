@@ -51,6 +51,17 @@ namespace TaskManager
                 Effect = new DropShadowEffect { BlurRadius = 30, Color = Colors.Black, ShadowDepth = 0 }
             };
 
+            var save = new Button
+            {
+                Background = new SolidColorBrush(Colors.Green),
+                Margin = new Thickness(3),
+                Width = 120,
+                Height = 40,
+                Content = "Сохранить"
+            };
+            save.Click += ChangeText; 
+            
+
             var RenameText = new TextBlock
             {
                 Margin = new Thickness(30, 30, 30, 0),
@@ -64,7 +75,6 @@ namespace TaskManager
                 Foreground = new SolidColorBrush(Colors.Azure)
             };
             newText = Rename;
-            window.PreviewKeyDown += ChangeText;
 
             var Description = new TextBlock
             {
@@ -86,20 +96,18 @@ namespace TaskManager
             stack.Children.Add(Descriptione());
             stack.Children.Add(ChangeColorText);
             stack.Children.Add(Horizontal());
+            stack.Children.Add(save);
             stack.Children.Add(Delete());
             bord.Child = stack;
             return bord;
         }
 
-        private void ChangeText(object sender, KeyEventArgs e)
+        private void ChangeText(object sender, RoutedEventArgs e)
         {
-            if(e.Key == Key.Enter)
-            {
-                selectedButton.Content = newText.Text.Trim();
-                crd.description = descript.Text;
-                //Сохранение
-                window.Close();
-            }
+            selectedButton.Content = newText.Text.Trim();
+            crd.description = descript.Text;
+            //Сохранение тут сделай!!!!!!!!!!!!!!!!!!!!!!
+            window.Close();
         }
 
         private TextBox Descriptione()
@@ -197,14 +205,8 @@ namespace TaskManager
 
         private void Deleter_Click(object sender, RoutedEventArgs e)
         {
-            for (int i = 0; i < cards.Children.Count; i++)
-            {
-                var card = cards.Children[i];
-                if(card == crd.btn)
-                {
-                    cards.Children.RemoveAt(i);
-                }
-            }
+            cards.Children.Remove(crd.btn);
+
             window.Close();
         }
     }

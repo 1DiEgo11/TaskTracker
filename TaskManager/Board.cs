@@ -63,7 +63,7 @@ namespace TaskManager
                 Margin = new Thickness(60, 30, 15, 0),
                 Width = 100,
                 Height = 30,
-                HorizontalAlignment = HorizontalAlignment.Left,
+                HorizontalAlignment = HorizontalAlignment.Left
             };
 
             ContextMenu menu = new ContextMenu();
@@ -149,7 +149,7 @@ namespace TaskManager
         private void OpenDesk(List<Column> columns, string name)
         {
             var a = new BoardColumn();
-            window.Content = a.Draw_Stack(users, columns, name);
+            window.Content = a.Draw_Stack(users, columns, name, window, user);
         }
 
         private void Exit(object sender, RoutedEventArgs e)
