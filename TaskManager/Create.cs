@@ -22,7 +22,6 @@ namespace TaskManager
         //    }
         //    else
         //    {
-
         //        users[id - 1].desk[desk].column[column].cards.Add(card);
         //    }
         //    Read.Write(users);

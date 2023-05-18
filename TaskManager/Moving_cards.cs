@@ -146,7 +146,7 @@ namespace TaskManager
             }
         }
 
-        private SolidColorBrush Converter(string s)
+        public static SolidColorBrush Converter(string s)
         {
             return (SolidColorBrush)new BrushConverter().ConvertFrom(s);
         }

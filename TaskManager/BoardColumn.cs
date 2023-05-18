@@ -77,6 +77,7 @@ namespace TaskManager
         {
             TaskWindow taskWindow = new TaskWindow(cards, index, card);
             taskWindow.Show();
+            //Сохранение изменений карточки карточки
         }
 
         private Border Column(List<Cards> cards_all)

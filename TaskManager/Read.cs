@@ -62,10 +62,10 @@ namespace TaskManager
         {
             this.name = name;
             this.description = description;
-            colour = "#000fff";
+            colour = "#0000FF";
             btn = new Button()
             {
-                Background = new SolidColorBrush(Colors.Blue),
+                Background = Moving_cards.Converter(colour),
                 Margin = new Thickness(10),
                 Width = 225,
                 Height = 40,
