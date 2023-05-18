@@ -20,7 +20,7 @@ namespace TaskManager
         private StackPanel cards;
         private Window window;
         private TextBox newText;
-        private TextBox Texto;
+        private TextBox descript;
         private Cards crd;
         
         public ScrollViewer CardSettings(Window window, StackPanel stack, Cards card)
@@ -96,6 +96,9 @@ namespace TaskManager
             if(e.Key == Key.Enter)
             {
                 selectedButton.Content = newText.Text.Trim();
+                crd.description = descript.Text;
+                //Сохранение
+                window.Close();
             }
         }
 
@@ -111,7 +114,7 @@ namespace TaskManager
                 Foreground = new SolidColorBrush(Colors.Azure),
                 Text = crd.description
             };
-            Texto = Descriptor;
+            descript = Descriptor;
 
             return Descriptor;
         }
@@ -176,6 +179,7 @@ namespace TaskManager
         private void PickColor(Brush color)
         {
             selectedButton.Background = color;
+            crd.colour = "#" + selectedButton.Background.ToString().Substring(3);
         }
         private Button Delete()
         {
