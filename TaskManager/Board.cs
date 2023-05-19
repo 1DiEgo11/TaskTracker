@@ -18,6 +18,7 @@ namespace TaskManager
     {
         private Window window;
         private List<User> users;
+        private WrapPanel content;
         private User user;
         public ScrollViewer Window_with_bords(Window window, List<User> _users, User user)
         {
@@ -52,7 +53,7 @@ namespace TaskManager
             
             var MyText = new TextBlock
             {
-                Margin = new Thickness(60, 15, 15, 0),
+                Margin = new Thickness(30, 15, 15, 0),
                 Text = "Все доступные вам доски",
                 FontSize = 20
             };
@@ -60,7 +61,7 @@ namespace TaskManager
             Button btn = new Button
             {
                 Content = "Меню",
-                Margin = new Thickness(60, 30, 15, 0),
+                Margin = new Thickness(30, 30, 15, 0),
                 Width = 100,
                 Height = 30,
                 HorizontalAlignment = HorizontalAlignment.Left
@@ -85,24 +86,68 @@ namespace TaskManager
             return bord;
         }
         
-        private Button Create_bord(string name, List<Column> columns)
+        private StackPanel Create_bord(string name, List<Column> columns)
         {
+            var butPanel = new StackPanel
+            {
+                Orientation = Orientation.Horizontal,
+
+            };
             var Text = new TextBox
             {
                 Width = 70,
                 Text = name,
+                HorizontalAlignment = HorizontalAlignment.Center
             };
             var myCart = new Button
             {
                 Background = new SolidColorBrush(Colors.Gray),
-                Margin = new Thickness(30),
+                Margin = new Thickness(30, 30, 0, 30),
                 Width = 100,
                 Height = 100,
                 Content = Text
             };
             myCart.Click += (s, e) => OpenDesk(columns, name);
 
-            return myCart;
+            var miniMenu = new Button
+            {
+                HorizontalContentAlignment = HorizontalAlignment.Left,
+                VerticalContentAlignment = VerticalAlignment.Top,
+                Background = Brushes.Transparent,
+                Foreground = new SolidColorBrush(Colors.Black),
+                FontSize = 20,
+                Width = 42,
+                Height = 32,
+                Margin = new Thickness(5),
+                Content = "*"
+            };
+
+            ContextMenu menu = new ContextMenu();
+            MenuItem mi = new MenuItem();
+            mi.Header = "Пользователи";
+            mi.Click += Person;
+            MenuItem mia = new MenuItem();
+            mia.Header = "Удалить доску";
+            mia.Click += Delete;
+
+            menu.Items.Add(mi);
+            menu.Items.Add(mia);
+
+            ContextMenu menu2 = new ContextMenu();
+            MenuItem mi2 = new MenuItem();
+            mi2.Header = "Список пользователей";
+
+            MenuItem mi3 = new MenuItem();
+            mi3.Header = "Что-то еще с пользователем";
+
+            mi.Items.Add((MenuItem)mi2);
+            mi.Items.Add((MenuItem)mi3);
+
+            miniMenu.ContextMenu = menu;
+
+            butPanel.Children.Add(myCart);
+            butPanel.Children.Add(miniMenu);
+            return butPanel;
         }
 
         private WrapPanel Bords()
@@ -111,20 +156,20 @@ namespace TaskManager
             {
                 VerticalAlignment = VerticalAlignment.Top,
                 Orientation = Orientation.Horizontal,
-                HorizontalAlignment = HorizontalAlignment.Center
+                HorizontalAlignment = HorizontalAlignment.Left
 
             };
 
             var button_Add = new Button
             {
-                Margin = new Thickness(30),
+                Margin = new Thickness(30, 30, 57, 30),
                 Width = 100,
                 Height = 100,
                 FontSize = 30,
                 Content = "+"
             };
+            button_Add.Click += AddButton;
 
-            
             foreach (var user in users)
             {
                 foreach(var bord in user.desk)
@@ -162,6 +207,29 @@ namespace TaskManager
             AuthWindow new_window = new AuthWindow();
             new_window.Show();
             window.Close();        
+        }
+
+        private void AddButton(object sender, RoutedEventArgs e)
+        {
+            var myPanel = (sender as FrameworkElement).Parent as WrapPanel;
+            myPanel.Children.Insert(myPanel.Children.Count - 1 , Create_bord("Новая", null));
+        }
+
+        private void Delete(object sender, RoutedEventArgs e)
+        {
+            if (sender is MenuItem menuItem && menuItem.Parent is ContextMenu contextMenu && contextMenu.PlacementTarget is FrameworkElement targetElement && targetElement.Parent is StackPanel stackPanel)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    // Remove the first child (assuming it is a StackPanel)
+                    stackPanel.Children.RemoveAt(0);
+                }
+            }
+        }
+
+        private void Person(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
