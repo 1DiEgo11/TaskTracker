@@ -88,6 +88,7 @@ namespace TaskManager
                 {
                     CreateDesk(user.id, 0, new int[] { user.id });
                 }
+
                 users.Add(user);
                 Read.Write(users);
                 return user;

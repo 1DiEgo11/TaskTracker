@@ -41,7 +41,7 @@ namespace TaskManager
             string pass_2 = passBox_2.Password.Trim();
             string email = emailBox.Text.Trim();
             
-            if(login.Length < 5 || !checks.CheckingForEngaged(login) || !checks.Check_Login(login))
+            if(login.Length < 3 || !checks.CheckingForEngaged(login) || !checks.Check_Login(login))
             {   
                 TextBoxLogin.ToolTip = "Поле введено не коректно";
                 TextBoxLogin.Background = Brushes.OrangeRed;

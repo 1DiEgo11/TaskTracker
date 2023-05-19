@@ -91,12 +91,15 @@ namespace TaskManager
             return bord;
         }
 
-        private void ChangeText(object sender, KeyEventArgs e)
+        private void ChangeText(object sender, KeyEventArgs e, Cards card)
         {
             if(e.Key == Key.Enter)
             {
                 selectedButton.Content = newText.Text.Trim();
                 crd.description = descript.Text;
+                crd.name = newText.Text.Trim();
+                card.name = newText.Text.Trim();
+                card.description = descript.Text;
                 //Сохранение
                 window.Close();
             }
