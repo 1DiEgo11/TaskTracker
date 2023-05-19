@@ -20,6 +20,8 @@ namespace TaskManager
         private Window window;
         private User user;
         private StackPanel myStack;
+        private int des;
+        private int colm;
         public ScrollViewer Draw_Stack(List<User> _users, List<Column> columns, string name_of_board, Window _window, User _user)
         {
             user = _user;
@@ -27,7 +29,10 @@ namespace TaskManager
             users = _users;
             col = columns;
             nameB = name_of_board;
-
+            for (int i = 0; i<user.desk.Count; i++) 
+            {
+                if (col == user.desk[i].column) { des = i; }
+            }
             var myScrollViewer = new ScrollViewer
             {
                 HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
@@ -85,6 +90,7 @@ namespace TaskManager
         private void Back_Click(object sender, RoutedEventArgs e)
         {
             var board = new Board();
+           
             var a = new UserPageWindow(user);
             a.Show();
             window.Close();
@@ -152,7 +158,21 @@ namespace TaskManager
         }
         private void PlusCard(StackPanel stack)
         {
-            var newCard = new Cards("Новая карточка", null);
+           
+            for (int i=0; i<col.Count; i++)
+            {
+                if (col[i].cards != null && stack!=null)
+                {
+                    if (stack.Children.Contains(col[i].cards[0].btn)) { colm = i; }
+                }
+            }
+            int[] path = new int[4] { user.id-1, des, colm ,0};
+            if (col[colm].cards != null) { path[3] = col[colm].cards.Count; }
+              
+            var newCard = new Cards("Новая карточка", null,path);
+            users[user.id - 1].desk[des].column[colm].cards.Add(newCard);
+            Read.Write(users);
+            //Create.CreateCards(user.id, des,colm);
             newCard.btn.Click += (s, e) => Task_Click(stack, stack.Children.Count - 1, newCard);
             stack.Children.Insert(stack.Children.Count - 1, newCard.btn);
             TaskWindow taskWindow = new TaskWindow(stack, stack.Children.Count - 2, newCard);
