@@ -17,8 +17,13 @@ namespace TaskManager
         private List<User> users;
         private List<Column> col;
         private string nameB;
-        public ScrollViewer Draw_Stack(List<User> _users, List<Column> columns, string name_of_board)
+        private Window window;
+        private User user;
+        private StackPanel myStack;
+        public ScrollViewer Draw_Stack(List<User> _users, List<Column> columns, string name_of_board, Window _window, User _user)
         {
+            user = _user;
+            window = _window;
             users = _users;
             col = columns;
             nameB = name_of_board;
@@ -46,6 +51,7 @@ namespace TaskManager
             };
 
             panel.Children.Add(nameBoard);
+            panel.Children.Add(Back_to_the_boards());
             panel.Children.Add(All_Coloum());
             return panel;
         }
@@ -61,6 +67,29 @@ namespace TaskManager
 
             return myStackPanel;
         }
+
+        private Button Back_to_the_boards()
+        {
+            var b = new Button()
+            {
+                Content = "Назад к доскам",
+                Margin = new Thickness(10, 30, 15, 0),
+                Width = 140,
+                Height = 30,
+                HorizontalAlignment = HorizontalAlignment.Left,
+            };
+            b.Click += Back_Click;
+            return b;
+        }
+
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+            var board = new Board();
+            var a = new UserPageWindow(user);
+            a.Show();
+            window.Close();
+        }
+
         private StackPanel Stack()
         {
             foreach (var c in col)
@@ -94,13 +123,16 @@ namespace TaskManager
                 Effect = new DropShadowEffect { BlurRadius = 30, Color = Colors.Black, ShadowDepth = 0 }
             };
 
-            StackPanel myStack = new StackPanel();
+            myStack = new StackPanel();
             if (cards_all != null)
             {
                 foreach (var card in cards_all)
                 {
-                    card.btn.Click += (s, e) => Task_Click(myStack, myStack.Children.Count, card);
-                    myStack.Children.Add(card.btn);
+                    if ( !myStack.Children.Contains(card.btn))
+                    {
+                        card.btn.Click += (s, e) => Task_Click(myStack, myStack.Children.Count, card);
+                        myStack.Children.Add(card.btn);
+                    }
                 }
             }
 
