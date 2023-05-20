@@ -133,15 +133,17 @@ namespace TaskManager
             menu.Items.Add(mi);
             menu.Items.Add(mia);
 
-            ContextMenu menu2 = new ContextMenu();
             MenuItem mi2 = new MenuItem();
             mi2.Header = "Список пользователей";
 
             MenuItem mi3 = new MenuItem();
-            mi3.Header = "Что-то еще с пользователем";
+            mi3.Header = new CheckBox()
+            {
+                Content = "Общедоступная"
+            };
 
-            mi.Items.Add((MenuItem)mi2);
-            mi.Items.Add((MenuItem)mi3);
+            mi.Items.Add(mi2);
+            mi.Items.Add(mi3);
 
             miniMenu.ContextMenu = menu;
 
