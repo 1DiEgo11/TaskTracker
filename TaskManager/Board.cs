@@ -20,12 +20,13 @@ namespace TaskManager
         private List<User> users;
         private WrapPanel content;
         private User user;
+        public int id;
         public ScrollViewer Window_with_bords(Window window, List<User> _users, User user)
         {
             this.user = user;
             users = _users;
             this.window = window;
-
+            id = user.id;
             StackPanel myStackPanel = new StackPanel();
             
             var myScrollViewer = new ScrollViewer
@@ -194,6 +195,7 @@ namespace TaskManager
         private void OpenDesk(List<Column> columns, string name)
         {
             var a = new BoardColumn();
+           
             window.Content = a.Draw_Stack(users, columns, name, window, user);
         }
 
