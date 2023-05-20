@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Collections;
 using System.Windows.Documents;
 using System.Xml.Linq;
+using MaterialDesignThemes.Wpf;
 
 namespace TaskManager
 {
@@ -22,13 +23,15 @@ namespace TaskManager
         private TextBox newText;
         private TextBox descript;
         private Cards crd;
-        
+        private List<User> users=Read.Reading();
+           
         public ScrollViewer CardSettings(Window window, StackPanel stack, Cards card)
         {
             crd = card;
             cards = stack;
             selectedButton = card.btn;
             this.window = window;
+            
             StackPanel myStackPanel = new StackPanel();
             var myScrollViewer = new ScrollViewer
             {
@@ -104,8 +107,12 @@ namespace TaskManager
 
         private void ChangeText(object sender, RoutedEventArgs e)
         {
+            
             selectedButton.Content = newText.Text.Trim();
             crd.description = descript.Text;
+            crd.name = newText.Text.Trim();
+            users[crd.path[0]].desk[crd.path[1]].column[crd.path[2]].cards[crd.path[3]] = crd;
+            Read.Write(users);
             //Сохранение тут сделай!!!!!!!!!!!!!!!!!!!!!!
             window.Close();
         }

@@ -10,12 +10,15 @@ namespace TaskManager
         {
             List<User> users = Read.Reading();
             int number = 1;
+            int[] path = new int[4] { id - 1, desk, column, 0 }; ;
             if (users[id - 1].desk[desk].column[column].cards != null)
             {
                 number = users[id - 1].desk[desk].column[column].cards.Count + 1;
+                path[3] = number - 2;
             }
             string name = "Card" + number.ToString();
-            Cards card = new Cards(name, "Оцените наше приложение в Play Market!");
+            Cards card = new Cards(name, "Оцените наше приложение в Play Market!",path);
+            card.path = path;
             if (users[id - 1].desk[desk].column[column].cards == null)
             {
                 users[id - 1].desk[desk].column[column].cards = new List<Cards> { card };
@@ -78,18 +81,21 @@ namespace TaskManager
             List<User> users = Read.Reading();
             if (checks.Check_Login(login) && checks.Check_newPassword(password) && checks.CheckingForEngaged(login))
             {
-                User user = new User(Read.GetId(), login, password, email)
-                {
-                    login = login,
-                    password = password,
-                    email = email
-                };
+                User user = new User(Read.GetId(), login, password, email);
+                //{
+                //    user,
+                //    login = login,
+                //    password = password,
+                //    email = email
+                //};
+                users.Add(user);
+                Read.Write(users);
                 for (int i=0; i<3; i++) 
                 {
                     CreateDesk(user.id, 0, new int[] { user.id });
                 }
-                users.Add(user);
-                Read.Write(users);
+
+                
                 return user;
             }
             return null;
