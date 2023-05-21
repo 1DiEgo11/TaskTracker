@@ -17,7 +17,7 @@ namespace TaskManager
                 path[3] = number - 2;
             }
             string name = "Card" + number.ToString();
-            Cards card = new Cards(name, "Оцените наше приложение в Play Market!",path);
+            Cards card = new Cards(name, "Оцените наше приложение в Play Market!", "#0000FF", path);
             card.path = path;
             if (users[id - 1].desk[desk].column[column].cards == null)
             {

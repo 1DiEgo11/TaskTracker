@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         WindowStartupLocation="CenterScreen"
-        Title="ТаскМанагер" Height="600" Width="1000">
+        Title="ТаскМанагер" Height="600" Width="1000" WindowStyle="None">
     <Grid>
 
     </Grid>

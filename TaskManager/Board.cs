@@ -87,7 +87,7 @@ namespace TaskManager
             return bord;
         }
         
-        private StackPanel Create_bord(string name, List<Column> columns)
+        private StackPanel Create_bord(Desk desk)
         {
             var butPanel = new StackPanel
             {
@@ -97,7 +97,7 @@ namespace TaskManager
             var Text = new TextBox
             {
                 Width = 70,
-                Text = name,
+                Text = desk.name,
                 HorizontalAlignment = HorizontalAlignment.Center
             };
             var myCart = new Button
@@ -108,7 +108,7 @@ namespace TaskManager
                 Height = 100,
                 Content = Text
             };
-            myCart.Click += (s, e) => OpenDesk(columns, name);
+            myCart.Click += (s, e) => OpenDesk(desk.column, desk.name, desk);
 
             var miniMenu = new Button
             {
@@ -179,11 +179,11 @@ namespace TaskManager
                 {
                     if (bord.access == 1)
                     {
-                        myPanel.Children.Add(Create_bord(bord.name, bord.column));
+                        myPanel.Children.Add(Create_bord(bord));
                     }
                     if (bord.access == 0 && bord.whitelist.Contains(this.user.id))
                     {
-                        myPanel.Children.Add(Create_bord(bord.name, bord.column));
+                        myPanel.Children.Add(Create_bord(bord));
                     }
                 }
             }
@@ -194,11 +194,11 @@ namespace TaskManager
         }
 
 
-        private void OpenDesk(List<Column> columns, string name)
+        private void OpenDesk(List<Column> columns, string name, Desk desk)
         {
             var a = new BoardColumn();
            
-            window.Content = a.Draw_Stack(users, columns, name, window, user);
+            window.Content = a.Draw_Stack(users, columns, name, window, user, desk);
         }
 
         private void Exit(object sender, RoutedEventArgs e)
@@ -216,7 +216,8 @@ namespace TaskManager
         private void AddButton(object sender, RoutedEventArgs e)
         {
             var myPanel = (sender as FrameworkElement).Parent as WrapPanel;
-            myPanel.Children.Insert(myPanel.Children.Count - 1 , Create_bord("Новая", null));
+            var d = new Desk(0, new int[] {user.id}, "Новая");
+            myPanel.Children.Insert(myPanel.Children.Count - 1 , Create_bord(d));
         }
 
         private void Delete(object sender, RoutedEventArgs e)

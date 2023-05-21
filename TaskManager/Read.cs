@@ -58,12 +58,12 @@ namespace TaskManager
         public string description { get; set; }
         public string colour { get; set; }
         public int[] path {  get; set; } 
-        public Cards(string name, string description, int[] path)
+        public Cards(string name, string description, string colour, int[] path)
         {
             this.path=path;
             this.name = name;
             this.description = description;
-            colour = "#0000FF";
+            this.colour = colour;
             btn = new Button()
             {
                 Background = Moving_cards.Converter(colour),
@@ -78,7 +78,7 @@ namespace TaskManager
     {
         public static List<User> Reading()
         {
-            string pathToJson = @"C:\Users\Tessia\Desktop\bede.json";
+            string pathToJson = @"C:\Users\asus\source\repos\TaskManager_All\bede.json";
 
             string json = File.ReadAllText(pathToJson);
 
@@ -87,7 +87,7 @@ namespace TaskManager
         }
         public static void Write(List<User> users)
         {
-            using (StreamWriter fstream = new StreamWriter(@"C:\Users\Tessia\Desktop\bede.json"))
+            using (StreamWriter fstream = new StreamWriter(@"C:\Users\asus\source\repos\TaskManager_All\bede.json"))
             {
                 string json = JsonSerializer.Serialize<List<User>>(users);
                 fstream.Write(json);

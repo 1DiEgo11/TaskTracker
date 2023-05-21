@@ -12,6 +12,8 @@ using System.Collections;
 using System.Windows.Documents;
 using System.Xml.Linq;
 using MaterialDesignThemes.Wpf;
+using Microsoft.Win32;
+using System.Security.Cryptography;
 
 namespace TaskManager
 {
@@ -23,10 +25,17 @@ namespace TaskManager
         private TextBox newText;
         private TextBox descript;
         private Cards crd;
-        private List<User> users=Read.Reading();
-           
-        public ScrollViewer CardSettings(Window window, StackPanel stack, Cards card)
+        private List<User> users = Read.Reading();
+        private User user;
+        Desk desk; 
+        int num_col;
+
+
+        public ScrollViewer CardSettings(Window window, StackPanel stack, Cards card, User user, Desk desk, int num_col)
         {
+            this.num_col = num_col;
+            this.desk = desk;
+            this.user = user;
             crd = card;
             cards = stack;
             selectedButton = card.btn;
@@ -107,10 +116,12 @@ namespace TaskManager
 
         private void ChangeText(object sender, RoutedEventArgs e)
         {
-            
+
             selectedButton.Content = newText.Text.Trim();
             crd.description = descript.Text;
             crd.name = newText.Text.Trim();
+            MessageBox.Show(crd.path[3].ToString());
+
             users[crd.path[0]].desk[crd.path[1]].column[crd.path[2]].cards[crd.path[3]] = crd;
             Read.Write(users);
             //Сохранение тут сделай!!!!!!!!!!!!!!!!!!!!!!
@@ -214,6 +225,7 @@ namespace TaskManager
         {
             cards.Children.Remove(crd.btn);
 
+            
             window.Close();
         }
     }
