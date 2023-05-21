@@ -78,7 +78,7 @@ namespace TaskManager
     {
         public static List<User> Reading()
         {
-            string pathToJson = @"C:\Users\Tessia\Desktop\bede.json";
+            string pathToJson = @"C:\Users\kolab\OneDrive\Рабочий стол\bede.json" ;  
 
             string json = File.ReadAllText(pathToJson);
 
