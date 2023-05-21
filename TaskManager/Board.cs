@@ -11,6 +11,10 @@ using System.Windows.Media.Animation;
 using MaterialDesignThemes.Wpf.Transitions;
 using System.Windows.Documents;
 using System.ComponentModel.Design;
+using System.Windows.Input;
+using System.Collections;
+using System.Xml.Linq;
+using System.Windows.Controls.Primitives;
 
 namespace TaskManager
 {
@@ -72,7 +76,7 @@ namespace TaskManager
 
             ContextMenu menu = new ContextMenu();
             MenuItem mi = new MenuItem();
-            mi.Header = "Смена пользователя";
+            mi.Header = "Смена пользователя"; 
             MenuItem mia = new MenuItem();
             mia.Header = "Выйти";
             menu.Items.Add(mi);
@@ -81,10 +85,14 @@ namespace TaskManager
             mi.Click += ChangePerson;
 
             btn.ContextMenu = menu;
+            btn.Click += (s, e) => { btn.ContextMenu.IsOpen = true; };
+
+
+
 
             CheckBox checkBox = new CheckBox
             {
-                Content="Сделать доску общедоступной"
+                Content="Сделать доску общедоступной" //проверка на количество пользователей
 
             };
 
@@ -97,14 +105,17 @@ namespace TaskManager
             return bord;
         }
         
+
+
         private StackPanel Create_bord(string name, List<Column> columns)
+        
         {
             var butPanel = new StackPanel
             {
                 Orientation = Orientation.Horizontal,
             };
 
-            var Text = new TextBox
+            var Text = new TextBox   //проверка на текст, название доски у пользователя
             {
                 Width = 70,
                 Text = name,
@@ -134,10 +145,10 @@ namespace TaskManager
                 Content = "*"
             };
 
+
             ContextMenu menu = new ContextMenu();
             MenuItem mi = new MenuItem();
-            mi.Header = "Пользователи";
-            mi.Click += Person;
+            mi.Header = "Пользователи"; 
             MenuItem mia = new MenuItem();
             mia.Header = "Удалить доску";
             mia.Click += Delete;
@@ -146,13 +157,15 @@ namespace TaskManager
             menu.Items.Add(mia);
 
             MenuItem mi2 = new MenuItem();
-            mi2.Header = "Список пользователей";
+            mi2.Header = "Список пользователей"; //вывести список пользователей
 
             MenuItem mi3 = new MenuItem();
-            mi3.Header = new CheckBox()
+            mi3.Header = new CheckBox() //проверка является ли доска общедоступной
             {
                 Content = "Общедоступная"
             };
+
+            miniMenu.Click += (s, e) => { miniMenu.ContextMenu.IsOpen = true; };
 
             mi.Items.Add(mi2);
             mi.Items.Add(mi3);
@@ -161,10 +174,11 @@ namespace TaskManager
 
             butPanel.Children.Add(myCart);
             butPanel.Children.Add(miniMenu);
+            
             return butPanel;
         }
 
-        private WrapPanel Bords()
+        private WrapPanel Bords() //проверка на количество досок у пользователя
         {
             WrapPanel myPanel = new WrapPanel
             {
@@ -174,7 +188,7 @@ namespace TaskManager
 
             };
 
-            var button_Add = new Button
+            var button_Add = new Button //сколько карточек у пользователя
             {
                 Margin = new Thickness(30, 30, 57, 30),
                 Width = 100,
@@ -242,9 +256,6 @@ namespace TaskManager
             }
         }
 
-        private void Person(object sender, RoutedEventArgs e)
-        {
-
-        }
+        
     }
 }
