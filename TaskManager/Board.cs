@@ -41,6 +41,8 @@ namespace TaskManager
         private Border Main_Stack(StackPanel stack)
         {
             stack.Orientation=Orientation.Vertical;
+            var newStack = new StackPanel();
+            newStack.Orientation=Orientation.Horizontal;
             Border bord = new Border
             {
                 Width = 1200,
@@ -79,8 +81,16 @@ namespace TaskManager
             mi.Click += ChangePerson;
 
             btn.ContextMenu = menu;
-        
-            stack.Children.Add(btn);
+
+            CheckBox checkBox = new CheckBox
+            {
+                Content="Сделать доску общедоступной"
+
+            };
+
+            stack.Children.Add(newStack);
+            newStack.Children.Add(btn);
+            newStack.Children.Add(checkBox); 
             stack.Children.Add(MyText);
             stack.Children.Add(Bords());
             bord.Child = stack;
@@ -92,14 +102,15 @@ namespace TaskManager
             var butPanel = new StackPanel
             {
                 Orientation = Orientation.Horizontal,
-
             };
+
             var Text = new TextBox
             {
                 Width = 70,
                 Text = name,
                 HorizontalAlignment = HorizontalAlignment.Center
             };
+
             var myCart = new Button
             {
                 Background = new SolidColorBrush(Colors.Gray),
