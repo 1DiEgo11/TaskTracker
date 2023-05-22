@@ -112,7 +112,6 @@
     <Compile Include="AuthWindow.xaml.cs">
       <DependentUpon>AuthWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Card.cs" />
     <Compile Include="Checks.cs" />
     <Compile Include="Create.cs" />
     <Compile Include="Read.cs" />

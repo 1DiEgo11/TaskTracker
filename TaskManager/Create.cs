@@ -23,7 +23,6 @@ namespace TaskManager
             }
             else
             {
-
                 users[id - 1].desk[desk].column[column].cards.Add(card);
             }
             Read.Write(users);
@@ -80,20 +79,12 @@ namespace TaskManager
             if (checks.Check_Login(login) && checks.Check_newPassword(password) && checks.CheckingForEngaged(login))
             {
                 User user = new User(Read.GetId(), login, password, email);
-                //{
-                //    user,
-                //    login = login,
-                //    password = password,
-                //    email = email
-                //};
                 users.Add(user);
                 Read.Write(users);
                 for (int i=0; i<3; i++) 
                 {
                     CreateDesk(user.id, 0, new int[] { user.id });
                 }
-
-                
                 return user;
             }
             return null;

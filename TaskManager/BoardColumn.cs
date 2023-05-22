@@ -21,7 +21,6 @@ namespace TaskManager
         private string nameB;
         private Window window;
         private User user;
-        private StackPanel myStack;
         private int des;
         private int colm;
         private Desk desk;
@@ -35,9 +34,12 @@ namespace TaskManager
             users = _users;
             col = desk.column;
             nameB = name_of_board;
-            for (int i = 0; i<user.desk.Count; i++) 
+            for (int i = 0; i < users[desk.parrent_id - 1].desk.Count; i++) 
             {
-                if (col == user.desk[i].column) { des = i; }
+                if (col == users[desk.parrent_id - 1].desk[i].column) 
+                { 
+                    des = i; 
+                } 
             }
             myScrollViewer = new ScrollViewer
             {
@@ -177,20 +179,17 @@ namespace TaskManager
         {
             for (int i=0; i < col.Count; i++)
             {
-                if (col[i].cards != null && stack != null)
+                if (col[i].cards.Count > 0 && stack != null)
                 {
                     if (stack.Children.Contains(col[i].cards[0].btn)) { colm = i; }
                 }
             }
-            int[] path = new int[4] { desk.parrent_id - 1, des, colm ,0};
-            if (col[colm].cards != null) 
+            int[] path = new int[4] { desk.parrent_id - 1, des, num_col, 0};
+            MessageBox.Show(des.ToString());
+            if (col[colm].cards.Count > 0) 
             {
                 path[3] = col[colm].cards.Count; 
             }
-
-            
-            
-            
 
             var newCard = new Cards("Новая карточка", null, "#0000FF", path);
 
