@@ -1,6 +1,4 @@
-﻿using TaskManager;
-//using ;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace TaskManager
 {
@@ -60,7 +58,7 @@ namespace TaskManager
                 number = users[id - 1].desk.Count + 1;
             }
             string name = "Desk" + number.ToString();
-            Desk desk = new Desk(access, whitelist, name);
+            Desk desk = new Desk( id, access, whitelist, name);
             if (users[id - 1].desk == null)
             {
                 users[id - 1].desk = new List<Desk> { desk };

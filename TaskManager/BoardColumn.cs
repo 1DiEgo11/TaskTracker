@@ -8,12 +8,14 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows;
 using System.Windows.Media.Effects;
+using System.Windows.Input;
 
 namespace TaskManager
 {
     internal class BoardColumn
     {
         private StackPanel myStackPanel;
+        private ScrollViewer myScrollViewer;
         private List<User> users;
         private List<Column> col;
         private string nameB;
@@ -29,6 +31,7 @@ namespace TaskManager
             this.desk = desk;
             user = _user;
             window = _window;
+            window.PreviewKeyDown += Key_down;
             users = _users;
             col = desk.column;
             nameB = name_of_board;
@@ -36,7 +39,7 @@ namespace TaskManager
             {
                 if (col == user.desk[i].column) { des = i; }
             }
-            var myScrollViewer = new ScrollViewer
+            myScrollViewer = new ScrollViewer
             {
                 HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
                 Content = VertStack()
@@ -179,25 +182,19 @@ namespace TaskManager
                     if (stack.Children.Contains(col[i].cards[0].btn)) { colm = i; }
                 }
             }
-            int[] path = new int[4] { user.id-1, des, colm ,0};
+            int[] path = new int[4] { desk.parrent_id - 1, des, colm ,0};
             if (col[colm].cards != null) 
             {
                 path[3] = col[colm].cards.Count; 
             }
 
-            int user_num = 0;
-            for (int i = 0; i < users.Count; i++)
-            {
-                if (users[i].id == user.id)
-                {
-                    user_num = i;
-                }
-            }
-            path[0] = user_num;
+            
+            
+            
 
             var newCard = new Cards("Новая карточка", null, "#0000FF", path);
 
-            users[user_num].desk[des].column[num_col].cards.Add(newCard);
+            users[desk.parrent_id - 1].desk[des].column[num_col].cards.Add(newCard);
             Read.Write(users);
            
             newCard.btn.Click += (s, e) => Task_Click(stack, stack.Children.Count - 1, newCard, user);
@@ -244,6 +241,15 @@ namespace TaskManager
                 myStackPanel.Children.Insert(myStackPanel.Children.Count - 1, Column(null));
                 if(myStackPanel.Children.Count - 1 == 10)
                     myStackPanel.Children.RemoveAt(myStackPanel.Children.Count - 1);
+            }
+        }
+
+        private void Key_down(object sender, KeyEventArgs e)
+        {
+            var m = new Moving_cards();
+            if (e.Key == Key.P)
+            {
+                m.Move(myScrollViewer, window, desk);
             }
         }
     }

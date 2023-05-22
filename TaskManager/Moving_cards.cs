@@ -13,17 +13,23 @@ namespace TaskManager
     internal class Moving_cards
     {
         private const string select_color = "#00FFFF";
-        private int index_main, index_card;
+        private int index_colm, index_card;
         private Button btn;
         private Brush prev_color;
         private StackPanel main_stack, stack_cards;
         private Window window;
-        public void Move(ScrollViewer content, Window _window)
+        private Desk desk;
+        private List<User> users = Read.Reading();
+        private Card select_card;
+
+        public void Move(ScrollViewer content, Window _window, Desk _desk)
         {
+
+            desk = _desk;
             window = _window;
             main_stack = ((StackPanel)content.Content).Children[2] as StackPanel;
             stack_cards = (StackPanel)((Border)main_stack.Children[0]).Child;
-            index_main = 0;
+            index_colm = 0;
             btn = stack_cards.Children[0] as Button;
             index_card = 0;
             prev_color = btn.Background;
@@ -31,7 +37,7 @@ namespace TaskManager
             window.PreviewKeyDown += Select_card;
             window.PreviewKeyDown += Move_card_Where;
         }
-
+        
         private void Select_card(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Down)
@@ -100,11 +106,11 @@ namespace TaskManager
         }
         private void Sel_Left() 
         {
-            if(index_main > 0 && main_stack.Children.Count > 0)
+            if(index_colm > 0 && main_stack.Children.Count > 0)
             {
                 btn.Background = prev_color;
-                stack_cards = (StackPanel)((Border)main_stack.Children[index_main - 1]).Child;
-                index_main--; 
+                stack_cards = (StackPanel)((Border)main_stack.Children[index_colm - 1]).Child;
+                index_colm--; 
                 btn = stack_cards.Children[0] as Button;
                 index_card = 0;
                 prev_color = btn.Background;
@@ -113,11 +119,11 @@ namespace TaskManager
         }
         private void Sel_Right() 
         {
-            if (main_stack.Children.Count > 0 && index_main < main_stack.Children.Count - 2)
+            if (main_stack.Children.Count > 0 && index_colm < main_stack.Children.Count - 2)
             {
                 btn.Background = prev_color;
-                stack_cards = (StackPanel)((Border)main_stack.Children[index_main + 1]).Child;
-                index_main++; 
+                stack_cards = (StackPanel)((Border)main_stack.Children[index_colm + 1]).Child;
+                index_colm++; 
                 btn = stack_cards.Children[0] as Button;
                 index_card = 0;
                 prev_color = btn.Background;
@@ -126,22 +132,23 @@ namespace TaskManager
         }
         private void Move_Right()
         {
-            if (index_main < main_stack.Children.Count - 2 && (string)btn.Content != "+ Карточка")
+            if (index_colm < main_stack.Children.Count - 2 && (string)btn.Content != "+ Карточка")
             {
                 stack_cards.Children.RemoveAt(index_card);
-                index_main++;
-                stack_cards = (StackPanel)((Border)main_stack.Children[index_main]).Child;
+
+                index_colm++;
+                stack_cards = (StackPanel)((Border)main_stack.Children[index_colm]).Child;
                 stack_cards.Children.Insert(index_card, btn);
                 
             }
         }
         private void Move_Left()
         {
-            if (index_main > 0 && (string)btn.Content != "+ Карточка")
+            if (index_colm > 0 && (string)btn.Content != "+ Карточка")
             {
                 stack_cards.Children.RemoveAt(index_card);
-                index_main--;
-                stack_cards = (StackPanel)((Border)main_stack.Children[index_main]).Child;
+                index_colm--;
+                stack_cards = (StackPanel)((Border)main_stack.Children[index_colm]).Child;
                 stack_cards.Children.Insert(index_card, btn);
             }
         }

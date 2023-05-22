@@ -87,18 +87,8 @@ namespace TaskManager
             btn.ContextMenu = menu;
             btn.Click += (s, e) => { btn.ContextMenu.IsOpen = true; };
 
-
-
-
-            CheckBox checkBox = new CheckBox
-            {
-                Content="Сделать доску общедоступной" //проверка на количество пользователей
-
-            };
-
             stack.Children.Add(newStack);
             newStack.Children.Add(btn);
-            newStack.Children.Add(checkBox); 
             stack.Children.Add(MyText);
             stack.Children.Add(Bords());
             bord.Child = stack;
@@ -238,7 +228,7 @@ namespace TaskManager
         private void AddButton(object sender, RoutedEventArgs e)
         {
             var myPanel = (sender as FrameworkElement).Parent as WrapPanel;
-            var d = new Desk(0, new int[] {user.id}, "Новая");
+            var d = new Desk(user.id, 0, new int[] {user.id}, "Новая");
             myPanel.Children.Insert(myPanel.Children.Count - 1 , Create_bord(d));
         }
 

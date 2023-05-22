@@ -120,11 +120,10 @@ namespace TaskManager
             selectedButton.Content = newText.Text.Trim();
             crd.description = descript.Text;
             crd.name = newText.Text.Trim();
-            MessageBox.Show(crd.path[3].ToString());
 
             users[crd.path[0]].desk[crd.path[1]].column[crd.path[2]].cards[crd.path[3]] = crd;
             Read.Write(users);
-            //Сохранение тут сделай!!!!!!!!!!!!!!!!!!!!!!
+            
             window.Close();
         }
 

@@ -27,17 +27,6 @@ namespace TaskManager
             Background = new SolidColorBrush(Colors.LightGray);
             Content = d.Window_with_bords(this, Read.Reading(), user);
             Show();
-
-            PreviewKeyDown += Key_down;
-        }
-
-        private void Key_down(object sender, KeyEventArgs e)
-        {
-           var m = new Moving_cards();
-           if(e.Key == Key.P) 
-           {
-                m.Move(Content as ScrollViewer, this);
-           }
         }
     }
 }
