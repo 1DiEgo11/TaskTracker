@@ -87,6 +87,15 @@ namespace TaskManager
             btn.ContextMenu = menu;
             btn.Click += (s, e) => { btn.ContextMenu.IsOpen = true; };
 
+
+
+
+            CheckBox checkBox = new CheckBox
+            {
+                Content="Сделать доску общедоступной" //проверка на количество пользователей
+
+            };
+
             stack.Children.Add(newStack);
             newStack.Children.Add(btn);
             stack.Children.Add(MyText);
