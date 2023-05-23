@@ -116,7 +116,7 @@ namespace TaskManager
                 Height = 100,
                 Content = Text
             };
-            myCart.Click += (s, e) => OpenDesk(desk.column, desk.name, desk);
+            myCart.Click += (s, e) => OpenDesk(desk.name, desk);
 
             var miniMenu = new Button
             {
@@ -205,11 +205,11 @@ namespace TaskManager
         }
 
 
-        private void OpenDesk(List<Column> columns, string name, Desk desk)
+        private void OpenDesk(string name, Desk desk)
         {
             var a = new BoardColumn();
            
-            window.Content = a.Draw_Stack(users, columns, name, window, user, desk);
+            window.Content = a.Draw_Stack(users, name, window, user, desk);
         }
 
         private void Exit(object sender, RoutedEventArgs e)
@@ -227,8 +227,9 @@ namespace TaskManager
         private void AddButton(object sender, RoutedEventArgs e)
         {
             var myPanel = (sender as FrameworkElement).Parent as WrapPanel;
-            var d = new Desk(user.id, 0, new int[] {user.id}, "Новая");
+            Desk d = Create.CreateDesk(user.id, 0, new int[] {user.id});
             myPanel.Children.Insert(myPanel.Children.Count - 1 , Create_bord(d));
+            users = Read.Reading();
         }
 
         private void Delete(object sender, RoutedEventArgs e)

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Windows;
 
 namespace TaskManager
 {
@@ -44,7 +45,7 @@ namespace TaskManager
             }
             Read.Write(users);
         }
-        public static void CreateDesk(int id, int access, int[] whitelist)
+        public static Desk CreateDesk(int id, int access, int[] whitelist)
         {
             List<User> users = Read.Reading();
             int number = 1;
@@ -67,6 +68,10 @@ namespace TaskManager
             {
                 CreateColumn(id, number - 1);
             }
+            users = Read.Reading();
+            desk.column = users[id - 1].desk[number - 1].column;
+            Read.Write(users);
+            return desk;
         }
 
         public static User Reg(string login, string password, string email)

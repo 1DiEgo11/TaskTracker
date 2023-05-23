@@ -25,7 +25,7 @@ namespace TaskManager
         private int num_col;
         private Desk desk;
         
-        public ScrollViewer Draw_Stack(List<User> _users, List<Column> columns, string name_of_board, Window _window, User _user, Desk desk)
+        public ScrollViewer Draw_Stack(List<User> _users, string name_of_board, Window _window, User _user, Desk desk)
         {
             this.desk = desk;
             user = _user;
@@ -97,8 +97,6 @@ namespace TaskManager
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            var board = new Board();
-           
             var a = new UserPageWindow(user);
             a.Show();
             window.Close();
@@ -106,7 +104,6 @@ namespace TaskManager
 
         private StackPanel Stack()
         {
-            
             for (int i = 0; i < col.Count; i++)
             {
                 myStackPanel.Children.Add(Column(col[i].cards, i));
@@ -122,8 +119,6 @@ namespace TaskManager
         {
             TaskWindow taskWindow = new TaskWindow(cards, index, card, user, desk);
             taskWindow.Show();
-            //Сохранение изменений карточки карточки
-
         }
 
         private Border Column(List<Cards> cards_all, int num_column)
@@ -141,6 +136,7 @@ namespace TaskManager
             };
 
             StackPanel myStack = new StackPanel();
+            
             if (cards_all != null)
             {
                 foreach (var card in cards_all)
@@ -232,7 +228,6 @@ namespace TaskManager
                 
                 if(myStackPanel.Children.Count - 1 == 10)
                     myStackPanel.Children.RemoveAt(myStackPanel.Children.Count - 1);
-                
             }
         }
 
