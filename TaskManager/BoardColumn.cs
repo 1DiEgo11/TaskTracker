@@ -22,7 +22,7 @@ namespace TaskManager
         private Window window;
         private User user;
         private int des;
-        private int colm;
+        private int num_col;
         private Desk desk;
         
         public ScrollViewer Draw_Stack(List<User> _users, List<Column> columns, string name_of_board, Window _window, User _user, Desk desk)
@@ -107,13 +107,13 @@ namespace TaskManager
         private StackPanel Stack()
         {
             
-            foreach (var c in col)
+            for (int i = 0; i < col.Count; i++)
             {
-                myStackPanel.Children.Add(Column(c.cards));
-                
+                myStackPanel.Children.Add(Column(col[i].cards, i));
+                num_col = i;
             }
 
-            myStackPanel.Children.Add(Jopumn());
+            myStackPanel.Children.Add(Plus_Column());
             
             return myStackPanel;
         }
@@ -126,17 +126,9 @@ namespace TaskManager
 
         }
 
-        private Border Column(List<Cards> cards_all)
+        private Border Column(List<Cards> cards_all, int num_column)
         {
-            int num_col = 0;
-            for (int i = 0; i < col.Count; i++)
-            {
-                if (col[i].cards == cards_all)
-                {
-                    num_col = i;
-                }
-            }
-
+            
             Border bord = new Border
             {
                 Margin = new Thickness(10),
@@ -155,7 +147,7 @@ namespace TaskManager
                 {
                     if ( !myStack.Children.Contains(card.btn))
                     {
-                        card.btn.Click += (s, e) => Task_Click(myStack, num_col, card, user);
+                        card.btn.Click += (s, e) => Task_Click(myStack, num_column, card, user);
                         myStack.Children.Add(card.btn);
                     }
                 }
@@ -168,7 +160,7 @@ namespace TaskManager
                 Height = 40,
                 Content = "+ Карточка"
             };
-            plus.Click += (s, e) => PlusCard(myStack, num_col);
+            plus.Click += (s, e) => PlusCard(myStack, num_column);
 
             myStack.Children.Add(plus);
             bord.Child = myStack;
@@ -177,18 +169,11 @@ namespace TaskManager
         }
         private void PlusCard(StackPanel stack, int num_col)
         {
-            for (int i=0; i < col.Count; i++)
-            {
-                if (col[i].cards.Count > 0 && stack != null)
-                {
-                    if (stack.Children.Contains(col[i].cards[0].btn)) { colm = i; }
-                }
-            }
             int[] path = new int[4] { desk.parrent_id - 1, des, num_col, 0};
-            MessageBox.Show(des.ToString());
-            if (col[colm].cards.Count > 0) 
+
+            if (col[num_col].cards.Count > 0) 
             {
-                path[3] = col[colm].cards.Count; 
+                path[3] = col[num_col].cards.Count; 
             }
 
             var newCard = new Cards("Новая карточка", null, "#0000FF", path);
@@ -204,7 +189,7 @@ namespace TaskManager
             
         }
 
-        private Border Jopumn()
+        private Border Plus_Column()
         {
             Border Man = new Border
             {
@@ -226,20 +211,28 @@ namespace TaskManager
                 Height = 40,
                 Content = "+"
             };
-            AddJopumn.Click += new RoutedEventHandler(AddJopumn_Click);
+            AddJopumn.Click += new RoutedEventHandler(PlusColumn_Click);
 
             Bruh.Children.Add(AddJopumn);
             Man.Child = Bruh;
             return Man;
 
         }
-        private void AddJopumn_Click(object sender, RoutedEventArgs e)
+        private void PlusColumn_Click(object sender, RoutedEventArgs e)
         {
             if (myStackPanel.Children.Count - 1 < 10)
             {
-                myStackPanel.Children.Insert(myStackPanel.Children.Count - 1, Column(null));
+                Create.CreateColumn(user.id, des);
+                users = Read.Reading();
+                desk = users[desk.parrent_id - 1].desk[des];
+                col = desk.column;
+                num_col++;
+
+                myStackPanel.Children.Insert(myStackPanel.Children.Count - 1, Column(new List<Cards> {}, num_col));
+                
                 if(myStackPanel.Children.Count - 1 == 10)
                     myStackPanel.Children.RemoveAt(myStackPanel.Children.Count - 1);
+                
             }
         }
 

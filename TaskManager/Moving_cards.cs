@@ -27,8 +27,7 @@ namespace TaskManager
         {
             desk = _desk;
             window = _window;
-            id_desk = Get_id_desk();
-
+            //id_desk = Get_id_desk();
             index_colm = Get_first_index_column();
             if(index_colm == -1)
             {
@@ -149,7 +148,7 @@ namespace TaskManager
             {
                 stack_cards.Children.RemoveAt(index_card);
                 
-                users[desk.parrent_id - 1].desk[id_desk].column[index_colm].cards.RemoveAt(index_card);
+                users[desk.parrent_id - 1].desk[select_card.path[1]].column[index_colm].cards.RemoveAt(index_card);
                 desk.column[index_colm].cards.RemoveAt(index_card);
 
                 index_colm++;
@@ -158,10 +157,10 @@ namespace TaskManager
                 stack_cards = (StackPanel)((Border)main_stack.Children[index_colm]).Child;
                 stack_cards.Children.Insert(index_card, btn);
 
-                users[desk.parrent_id - 1].desk[id_desk].column[index_colm].cards.Insert(index_card, select_card);
+                users[desk.parrent_id - 1].desk[select_card.path[1]].column[index_colm].cards.Insert(index_card, select_card);
                 desk.column[index_colm].cards.Insert(index_card, select_card);
                 Read.Write(users);
-                Read.Rewriting_Cards_path(users, desk.parrent_id - 1, id_desk, index_colm);
+                Read.Rewriting_Cards_path(users, desk.parrent_id - 1, select_card.path[1], index_colm);
                 users = Read.Reading();
             }
         }
@@ -171,7 +170,7 @@ namespace TaskManager
             {
                 stack_cards.Children.RemoveAt(index_card);
 
-                users[desk.parrent_id - 1].desk[id_desk].column[index_colm].cards.RemoveAt(index_card);
+                users[desk.parrent_id - 1].desk[select_card.path[1]].column[index_colm].cards.RemoveAt(index_card);
                 desk.column[index_colm].cards.RemoveAt(index_card);
 
                 index_colm--;
@@ -180,10 +179,10 @@ namespace TaskManager
                 stack_cards = (StackPanel)((Border)main_stack.Children[index_colm]).Child;
                 stack_cards.Children.Insert(index_card, btn);
 
-                users[desk.parrent_id - 1].desk[id_desk].column[index_colm].cards.Insert(index_card, select_card);
+                users[desk.parrent_id - 1].desk[select_card.path[1]].column[index_colm].cards.Insert(index_card, select_card);
                 desk.column[index_colm].cards.Insert(index_card, select_card);
                 Read.Write(users);
-                Read.Rewriting_Cards_path(users, desk.parrent_id - 1, id_desk, index_colm);
+                Read.Rewriting_Cards_path(users, desk.parrent_id - 1, select_card.path[1], index_colm);
                 users = Read.Reading();
             }
         }

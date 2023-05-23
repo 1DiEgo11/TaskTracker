@@ -46,10 +46,10 @@ namespace TaskManager
     {
         public string name { get; set; }
         public List<Cards> cards { get; set; }
-        public Column(string name)
+        public Column(string name, List<Cards> cards)
         {
             this.name = name;
-            //cards = null;
+            this.cards = cards;
         }
     }
     public class Cards

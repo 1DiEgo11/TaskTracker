@@ -30,14 +30,10 @@ namespace TaskManager
         public static void CreateColumn(int id, int desk)
         {
             List<User> users = Read.Reading();
-            int number = 1;
-            if (users[id - 1].desk[desk].column != null)
-            {
-                number = users[id - 1].desk[desk].column.Count + 1;
-            }
-            string name = "Column" + number.ToString();
-            Column column = new Column(name);
-            //Console.WriteLine(user.desk[desk].name);
+            
+            string name = "New Bord";
+            Column column = new Column(name, new List<Cards> {});
+
             if (users[id - 1].desk[desk].column == null)
             {
                 users[id - 1].desk[desk].column = new List<Column> { column };
