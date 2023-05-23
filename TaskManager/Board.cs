@@ -42,11 +42,26 @@ namespace TaskManager
             return myScrollViewer;
         }
 
+        private ContextMenu CreateContextMenu()
+        {
+            ContextMenu menu = new ContextMenu();
+            MenuItem changeperson = new MenuItem();
+            changeperson.Header = "Смена пользователя";
+            MenuItem exit = new MenuItem();
+            exit.Header = "Выйти";
+            menu.Items.Add(changeperson);
+            menu.Items.Add(exit);
+            exit.Click += Exit;
+            changeperson.Click += ChangePerson;
+
+            return menu;
+        }
+
         private Border Main_Stack(StackPanel stack)
         {
-            stack.Orientation=Orientation.Vertical;
+            stack.Orientation = Orientation.Vertical;
             var newStack = new StackPanel();
-            newStack.Orientation=Orientation.Horizontal;
+            newStack.Orientation = Orientation.Horizontal;
             Border bord = new Border
             {
                 Width = 1200,
@@ -57,7 +72,7 @@ namespace TaskManager
                 CornerRadius = new CornerRadius(5),
                 Effect = new DropShadowEffect { BlurRadius = 30, Color = Colors.Black, ShadowDepth = 0 }
             };
-            
+
             var MyText = new TextBlock
             {
                 Margin = new Thickness(30, 15, 15, 0),
@@ -74,25 +89,13 @@ namespace TaskManager
                 HorizontalAlignment = HorizontalAlignment.Left
             };
 
-            ContextMenu menu = new ContextMenu();
-            MenuItem mi = new MenuItem();
-            mi.Header = "Смена пользователя"; 
-            MenuItem mia = new MenuItem();
-            mia.Header = "Выйти";
-            menu.Items.Add(mi);
-            menu.Items.Add(mia);
-            mia.Click += Exit;
-            mi.Click += ChangePerson;
-
-            btn.ContextMenu = menu;
+            // Create the context menu with the helper method
+            btn.ContextMenu = CreateContextMenu();
             btn.Click += (s, e) => { btn.ContextMenu.IsOpen = true; };
-
-
-
 
             CheckBox checkBox = new CheckBox
             {
-                Content="Сделать доску общедоступной" //проверка на количество пользователей
+                Content = "Сделать доску общедоступной" //проверка на количество пользователей
 
             };
 
@@ -103,7 +106,35 @@ namespace TaskManager
             bord.Child = stack;
             return bord;
         }
-        
+
+        private ContextMenu CreateMiniMenu(Desk desk)
+        {
+            ContextMenu minimenu = new ContextMenu();
+
+            MenuItem people = new MenuItem();
+            people.Header = "Пользователи";
+            MenuItem delete = new MenuItem();
+            delete.Header = "Удалить доску";
+            delete.Click += Delete;
+
+            minimenu.Items.Add(people);
+            minimenu.Items.Add(delete);
+
+            MenuItem list = new MenuItem();
+            list.Header = "Список пользователей"; //вывести список пользователей
+
+            MenuItem checkbox = new MenuItem();
+            checkbox.Header = new CheckBox() //проверка является ли доска общедоступной
+            {
+                Content = "Общедоступная"
+            };
+
+            people.Items.Add(list);
+            people.Items.Add(checkbox);
+
+            return minimenu;
+        }
+
         private StackPanel Create_bord(Desk desk)
         {
             var butPanel = new StackPanel
@@ -141,38 +172,15 @@ namespace TaskManager
                 Content = "*"
             };
 
-
-            ContextMenu menu = new ContextMenu();
-            MenuItem mi = new MenuItem();
-            mi.Header = "Пользователи"; 
-            MenuItem mia = new MenuItem();
-            mia.Header = "Удалить доску";
-            mia.Click += Delete;
-
-            menu.Items.Add(mi);
-            menu.Items.Add(mia);
-
-            MenuItem mi2 = new MenuItem();
-            mi2.Header = "Список пользователей"; //вывести список пользователей
-
-            MenuItem mi3 = new MenuItem();
-            mi3.Header = new CheckBox() //проверка является ли доска общедоступной
-            {
-                Content = "Общедоступная"
-            };
-
+            miniMenu.ContextMenu = CreateMiniMenu(desk);
             miniMenu.Click += (s, e) => { miniMenu.ContextMenu.IsOpen = true; };
-
-            mi.Items.Add(mi2);
-            mi.Items.Add(mi3);
-
-            miniMenu.ContextMenu = menu;
 
             butPanel.Children.Add(myCart);
             butPanel.Children.Add(miniMenu);
-            
+
             return butPanel;
         }
+
 
         private WrapPanel Bords() //проверка на количество досок у пользователя
         {
