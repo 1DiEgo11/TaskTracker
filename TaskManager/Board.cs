@@ -22,7 +22,6 @@ namespace TaskManager
     {
         private Window window;
         private List<User> users;
-        private WrapPanel content;
         private User user;
         public int id;
         public ScrollViewer Window_with_bords(Window window, List<User> _users, User user)

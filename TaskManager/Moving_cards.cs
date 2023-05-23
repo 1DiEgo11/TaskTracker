@@ -21,13 +21,11 @@ namespace TaskManager
         private Desk desk;
         private List<User> users = Read.Reading();
         private Cards select_card;
-        private int id_desk = 0;
 
         public void Move(ScrollViewer content, Window _window, Desk _desk)
         {
             desk = _desk;
             window = _window;
-            //id_desk = Get_id_desk();
             index_colm = Get_first_index_column();
             if(index_colm == -1)
             {
