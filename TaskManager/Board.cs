@@ -142,7 +142,7 @@ namespace TaskManager
             rename.Click += (s, e) => SaveName(desk, desk_num, myCart);
             MenuItem mia = new MenuItem();
             mia.Header = "Удалить доску";
-            mia.Click += Delete;
+            mia.Click += (s, e) => Delete(butPanel, desk, desk_num);
 
             menu.Items.Add(rename);
             menu.Items.Add(mi);
@@ -240,16 +240,20 @@ namespace TaskManager
             users = Read.Reading();
         }
 
-        private void Delete(object sender, RoutedEventArgs e)
+        private void Delete(StackPanel stackPanel, Desk desk, int desk_num)
         {
-            if (sender is MenuItem menuItem && menuItem.Parent is ContextMenu contextMenu && contextMenu.PlacementTarget is FrameworkElement targetElement && targetElement.Parent is StackPanel stackPanel)
+            for (int i = 0; i < 2; i++)
             {
-                for (int i = 0; i < 2; i++)
-                {
-                    // Remove the first child (assuming it is a StackPanel)
+                if (stackPanel.Children.Count == 2)
                     stackPanel.Children.RemoveAt(0);
+                else
+                {
+                    stackPanel.Children.RemoveAt(0);
+                    break;
                 }
             }
+            users[desk.parrent_id - 1].desk.RemoveAt(desk_num);
+            Read.Write(users);
         }
 
         private void SaveName(Desk desk, int desk_num, Button btn)

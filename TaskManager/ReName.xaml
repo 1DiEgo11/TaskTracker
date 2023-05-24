@@ -11,6 +11,5 @@
         <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Переименование: " VerticalAlignment="Top" Width="156" Height="20" FontFamily="Arial" FontSize="18"/>
         <TextBox x:Name="text" HorizontalAlignment="Center" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Center" Width="309" Height="43" FontSize="20" FontFamily="Arial"/>
         <Button x:Name="Save" Content="Сохранить" HorizontalAlignment="Center" Margin="0,102,0,0" VerticalAlignment="Top"/>
-
     </Grid>
 </Window>

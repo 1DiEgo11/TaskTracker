@@ -31,12 +31,12 @@ namespace TaskManager
             {
                 return;
             }
-            index_card = 0;
+            index_card = 1;
 
             main_stack = ((StackPanel)content.Content).Children[2] as StackPanel;
             stack_cards = (StackPanel)((Border)main_stack.Children[index_colm]).Child;
 
-            select_card = desk.column[index_colm].cards[index_card];
+            select_card = desk.column[index_colm].cards[index_card - 1];
             btn = select_card.btn;
             prev_color = btn.Background;
             btn.Background = Converter(select_color);
@@ -90,24 +90,24 @@ namespace TaskManager
         }
         private void Sel_Up() 
         {
-            if(index_card > 0)
+            if(index_card > 1)
             {
                 btn.Background = prev_color;
                 index_card--;
-                btn = desk.column[index_colm].cards[index_card].btn;
-                select_card = desk.column[index_colm].cards[index_card];
+                btn = desk.column[index_colm].cards[index_card - 1].btn;
+                select_card = desk.column[index_colm].cards[index_card - 1];
                 prev_color = btn.Background;
                 btn.Background = Converter(select_color);
             }
         }
         private void Sel_Down() 
         {
-            if(index_card < desk.column[index_colm].cards.Count - 1)
+            if(index_card < desk.column[index_colm].cards.Count)
             {
                 btn.Background = prev_color;
                 index_card++;
-                btn = desk.column[index_colm].cards[index_card].btn;
-                select_card = desk.column[index_colm].cards[index_card];
+                btn = desk.column[index_colm].cards[index_card - 1].btn;
+                select_card = desk.column[index_colm].cards[index_card - 1];
                 prev_color = btn.Background;
                 btn.Background = Converter(select_color);
             }
@@ -119,9 +119,9 @@ namespace TaskManager
                 btn.Background = prev_color;
                 stack_cards = (StackPanel)((Border)main_stack.Children[index_colm - 1]).Child;
                 index_colm--; 
-                index_card = 0;
-                btn = desk.column[index_colm].cards[index_card].btn;
-                select_card = desk.column[index_colm].cards[index_card];
+                index_card = 1;
+                btn = desk.column[index_colm].cards[index_card - 1].btn;
+                select_card = desk.column[index_colm].cards[index_card - 1];
                 prev_color = btn.Background;
                 btn.Background = Converter(select_color);
             }
@@ -133,9 +133,9 @@ namespace TaskManager
                 btn.Background = prev_color;
                 stack_cards = (StackPanel)((Border)main_stack.Children[index_colm + 1]).Child;
                 index_colm++;
-                index_card = 0;
-                btn = desk.column[index_colm].cards[index_card].btn;
-                select_card = desk.column[index_colm].cards[index_card];
+                index_card = 1;
+                btn = desk.column[index_colm].cards[index_card - 1].btn;
+                select_card = desk.column[index_colm].cards[index_card - 1];
                 prev_color = btn.Background;
                 btn.Background = Converter(select_color);
             }
@@ -146,17 +146,17 @@ namespace TaskManager
             {
                 stack_cards.Children.RemoveAt(index_card);
                 
-                users[desk.parrent_id - 1].desk[select_card.path[1]].column[index_colm].cards.RemoveAt(index_card);
-                desk.column[index_colm].cards.RemoveAt(index_card);
+                users[desk.parrent_id - 1].desk[select_card.path[1]].column[index_colm].cards.RemoveAt(index_card - 1);
+                desk.column[index_colm].cards.RemoveAt(index_card - 1);
 
                 index_colm++;
-                index_card = 0;
+                index_card = 1;
 
                 stack_cards = (StackPanel)((Border)main_stack.Children[index_colm]).Child;
                 stack_cards.Children.Insert(index_card, btn);
 
-                users[desk.parrent_id - 1].desk[select_card.path[1]].column[index_colm].cards.Insert(index_card, select_card);
-                desk.column[index_colm].cards.Insert(index_card, select_card);
+                users[desk.parrent_id - 1].desk[select_card.path[1]].column[index_colm].cards.Insert(index_card - 1, select_card);
+                desk.column[index_colm].cards.Insert(index_card - 1, select_card);
                 Read.Write(users);
                 Read.Rewriting_Cards_path(users, desk.parrent_id - 1, select_card.path[1], index_colm);
                 users = Read.Reading();
@@ -168,17 +168,17 @@ namespace TaskManager
             {
                 stack_cards.Children.RemoveAt(index_card);
 
-                users[desk.parrent_id - 1].desk[select_card.path[1]].column[index_colm].cards.RemoveAt(index_card);
-                desk.column[index_colm].cards.RemoveAt(index_card);
+                users[desk.parrent_id - 1].desk[select_card.path[1]].column[index_colm].cards.RemoveAt(index_card - 1);
+                desk.column[index_colm].cards.RemoveAt(index_card - 1);
 
                 index_colm--;
-                index_card = 0;
+                index_card = 1;
 
                 stack_cards = (StackPanel)((Border)main_stack.Children[index_colm]).Child;
                 stack_cards.Children.Insert(index_card, btn);
 
-                users[desk.parrent_id - 1].desk[select_card.path[1]].column[index_colm].cards.Insert(index_card, select_card);
-                desk.column[index_colm].cards.Insert(index_card, select_card);
+                users[desk.parrent_id - 1].desk[select_card.path[1]].column[index_colm].cards.Insert(index_card - 1, select_card);
+                desk.column[index_colm].cards.Insert(index_card - 1, select_card);
                 Read.Write(users);
                 Read.Rewriting_Cards_path(users, desk.parrent_id - 1, select_card.path[1], index_colm);
                 users = Read.Reading();

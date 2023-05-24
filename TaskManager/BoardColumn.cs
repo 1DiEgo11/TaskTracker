@@ -106,7 +106,7 @@ namespace TaskManager
         {
             for (int i = 0; i < col.Count; i++)
             {
-                myStackPanel.Children.Add(Column(col[i].cards, i));
+                myStackPanel.Children.Add(Column(col[i].cards, i, col[i].name));
                 num_col = i;
             }
 
@@ -121,7 +121,7 @@ namespace TaskManager
             taskWindow.Show();
         }
 
-        private Border Column(List<Cards> cards_all, int num_column)
+        private Border Column(List<Cards> cards_all, int num_column, string name)
         {
             
             Border bord = new Border
@@ -135,8 +135,15 @@ namespace TaskManager
                 Effect = new DropShadowEffect { BlurRadius = 30, Color = Colors.Black, ShadowDepth = 0 }
             };
 
+            var name_col = new TextBlock()
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                FontSize = 14,
+                Text = name
+            };
+
             StackPanel myStack = new StackPanel();
-            
+            myStack.Children.Add(name_col);
             if (cards_all != null)
             {
                 foreach (var card in cards_all)
@@ -157,8 +164,18 @@ namespace TaskManager
                 Content = "+ Карточка"
             };
             plus.Click += (s, e) => PlusCard(myStack, num_column);
-
             myStack.Children.Add(plus);
+
+            var settings = new Button
+            {
+                Margin = new Thickness(20),
+                Width = 225,
+                Height = 40,
+                Content = "Настройки"
+            };
+            settings.Click += (s, e) => Setting(desk, num_column, des, myStack, name);
+            myStack.Children.Add(settings);
+
             bord.Child = myStack;
 
             return bord;
@@ -177,8 +194,8 @@ namespace TaskManager
             users[desk.parrent_id - 1].desk[des].column[num_col].cards.Add(newCard);
             Read.Write(users);
            
-            newCard.btn.Click += (s, e) => Task_Click(stack, stack.Children.Count - 1, newCard, user);
-            stack.Children.Insert(stack.Children.Count - 1, newCard.btn);
+            newCard.btn.Click += (s, e) => Task_Click(stack, stack.Children.Count - 2, newCard, user);
+            stack.Children.Insert(stack.Children.Count - 2, newCard.btn);
 
             TaskWindow taskWindow = new TaskWindow(stack, stack.Children.Count - 2, newCard, user, desk);
             taskWindow.Show();
@@ -224,7 +241,7 @@ namespace TaskManager
                 col = desk.column;
                 num_col++;
 
-                myStackPanel.Children.Insert(myStackPanel.Children.Count - 1, Column(new List<Cards> {}, num_col));
+                myStackPanel.Children.Insert(myStackPanel.Children.Count - 1, Column(new List<Cards> {}, num_col, "New Bord"));
                 
                 if(myStackPanel.Children.Count - 1 == 10)
                     myStackPanel.Children.RemoveAt(myStackPanel.Children.Count - 1);
@@ -238,6 +255,12 @@ namespace TaskManager
             {
                 m.Move(myScrollViewer, window, desk);
             }
+        }
+
+        private void Setting(Desk desk, int num_col, int num_des, StackPanel stack, string name)
+        {
+            var setting_window = new ReName(desk, num_col, num_des, stack, name, myStackPanel);
+            setting_window.Show();
         }
     }
 }
