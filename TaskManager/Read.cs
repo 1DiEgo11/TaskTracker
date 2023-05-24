@@ -46,10 +46,10 @@ namespace TaskManager
     {
         public string name { get; set; }
         public List<Cards> cards { get; set; }
-        public Column(string name)
+        public Column(string name, List<Cards> cards)
         {
             this.name = name;
-            //cards = null;
+            this.cards = cards;
         }
     }
     public class Cards
@@ -98,6 +98,19 @@ namespace TaskManager
         {
             List<User> users = Reading();
             return users.Count + 1;
+        }
+
+        public static void Rewriting_Cards_path(List<User> users, int id_user, int desk_num, int index_colm)
+        {
+            //Исправить, так как надо проходиться по всем столбцам
+            for (int j = 0; j < users[id_user].desk[desk_num].column.Count; j++)
+            {
+                for (int i = 0; i < users[id_user].desk[desk_num].column[j].cards.Count; i++)
+                {
+                    users[id_user].desk[desk_num].column[j].cards[i].path = new int[] { id_user, desk_num, j, i };
+                }
+            }
+            Write(users);
         }
     }
 

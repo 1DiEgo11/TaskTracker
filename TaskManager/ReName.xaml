@@ -1,0 +1,15 @@
+﻿<Window x:Class="TaskManager.ReName"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TaskManager"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="ReName" Height="156" Width="329" WindowStyle="None">
+    <Grid>
+        <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Переименование: " VerticalAlignment="Top" Width="156" Height="20" FontFamily="Arial" FontSize="18"/>
+        <TextBox x:Name="text" HorizontalAlignment="Center" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Center" Width="309" Height="43" FontSize="20" FontFamily="Arial"/>
+        <Button x:Name="Save" Content="Сохранить" HorizontalAlignment="Center" Margin="0,102,0,0" VerticalAlignment="Top"/>
+    </Grid>
+</Window>

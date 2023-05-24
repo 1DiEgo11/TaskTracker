@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Windows;
 
 namespace TaskManager
 {
@@ -61,6 +62,14 @@ namespace TaskManager
             int number = Number(1, column: users[id - 1].desk[desk].column);
             string name = Name("Column", number);
             Column column = new Column(name);
+            
+            string name = "New Bord";
+            Column column = new Column(name, new List<Cards> {});
+
+            }
+            string name = "Column" + number.ToString();
+            Column column = new Column(name);
+            //Console.WriteLine(user.desk[desk].name);
             if (users[id - 1].desk[desk].column == null)
             {
                 users[id - 1].desk[desk].column = new List<Column> { column };
@@ -71,7 +80,7 @@ namespace TaskManager
             }
             Read.Write(users);
         }
-        public static void CreateDesk(int id, int access, int[] whitelist)
+        public static Desk CreateDesk(int id, int access, int[] whitelist)
         {
             List<User> users = Read.Reading();
 
@@ -91,6 +100,10 @@ namespace TaskManager
             {
                 CreateColumn(id, number - 1);
             }
+            users = Read.Reading();
+            desk.column = users[id - 1].desk[number - 1].column;
+            Read.Write(users);
+            return desk;
         }
 
         public static User Reg(string login, string password, string email)

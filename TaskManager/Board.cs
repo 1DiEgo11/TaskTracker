@@ -22,9 +22,9 @@ namespace TaskManager
     {
         private Window window;
         private List<User> users;
-        private WrapPanel content;
         private User user;
         public int id;
+        ScrollViewer myScrollViewer;
         public ScrollViewer Window_with_bords(Window window, List<User> _users, User user)
         {
             this.user = user;
@@ -33,7 +33,7 @@ namespace TaskManager
             id = user.id;
             StackPanel myStackPanel = new StackPanel();
             
-            var myScrollViewer = new ScrollViewer
+            myScrollViewer = new ScrollViewer
             {
                 HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
                 Content = Main_Stack(myStackPanel)
@@ -95,19 +95,20 @@ namespace TaskManager
             return bord;
         }
         
-        private StackPanel Create_bord(Desk desk)
+        private StackPanel Create_bord(Desk desk, int desk_num)
         {
             var butPanel = new StackPanel
             {
                 Orientation = Orientation.Horizontal,
             };
 
-            var Text = new TextBox   //проверка на текст, название доски у пользователя
+            var Text = new TextBlock
             {
                 Width = 70,
                 Text = desk.name,
                 HorizontalAlignment = HorizontalAlignment.Center
             };
+
 
             var myCart = new Button
             {
@@ -117,7 +118,7 @@ namespace TaskManager
                 Height = 100,
                 Content = Text
             };
-            myCart.Click += (s, e) => OpenDesk(desk.column, desk.name, desk);
+            myCart.Click += (s, e) => OpenDesk(desk.name, desk);
 
             var miniMenu = new Button
             {
@@ -135,11 +136,15 @@ namespace TaskManager
 
             ContextMenu menu = new ContextMenu();
             MenuItem mi = new MenuItem();
-            mi.Header = "Пользователи"; 
+            mi.Header = "Пользователи";
+            MenuItem rename = new MenuItem();
+            rename.Header = "Переименовать";
+            rename.Click += (s, e) => SaveName(desk, desk_num, myCart);
             MenuItem mia = new MenuItem();
             mia.Header = "Удалить доску";
-            mia.Click += Delete;
+            mia.Click += (s, e) => Delete(butPanel, desk, desk_num);
 
+            menu.Items.Add(rename);
             menu.Items.Add(mi);
             menu.Items.Add(mia);
 
@@ -165,7 +170,7 @@ namespace TaskManager
             return butPanel;
         }
 
-        private WrapPanel Bords() //проверка на количество досок у пользователя
+        private WrapPanel Bords() 
         {
             WrapPanel myPanel = new WrapPanel
             {
@@ -175,7 +180,7 @@ namespace TaskManager
 
             };
 
-            var button_Add = new Button //сколько карточек у пользователя
+            var button_Add = new Button 
             {
                 Margin = new Thickness(30, 30, 57, 30),
                 Width = 100,
@@ -187,16 +192,18 @@ namespace TaskManager
 
             foreach (var user in users)
             {
+                int i = 0;
                 foreach(var bord in user.desk)
                 {
                     if (bord.access == 1)
                     {
-                        myPanel.Children.Add(Create_bord(bord));
+                        myPanel.Children.Add(Create_bord(bord, i));
                     }
                     if (bord.access == 0 && bord.whitelist.Contains(this.user.id))
                     {
-                        myPanel.Children.Add(Create_bord(bord));
+                        myPanel.Children.Add(Create_bord(bord, i));
                     }
+                    i++;
                 }
             }
             
@@ -206,11 +213,11 @@ namespace TaskManager
         }
 
 
-        private void OpenDesk(List<Column> columns, string name, Desk desk)
+        private void OpenDesk(string name, Desk desk)
         {
             var a = new BoardColumn();
            
-            window.Content = a.Draw_Stack(users, columns, name, window, user, desk);
+            window.Content = a.Draw_Stack(users, name, window, user, desk);
         }
 
         private void Exit(object sender, RoutedEventArgs e)
@@ -228,22 +235,32 @@ namespace TaskManager
         private void AddButton(object sender, RoutedEventArgs e)
         {
             var myPanel = (sender as FrameworkElement).Parent as WrapPanel;
-            var d = new Desk(user.id, 0, new int[] {user.id}, "Новая");
-            myPanel.Children.Insert(myPanel.Children.Count - 1 , Create_bord(d));
+            Desk d = Create.CreateDesk(user.id, 0, new int[] {user.id});
+            myPanel.Children.Insert(myPanel.Children.Count - 1 , Create_bord(d, myPanel.Children.Count - 1));
+            users = Read.Reading();
         }
 
-        private void Delete(object sender, RoutedEventArgs e)
+        private void Delete(StackPanel stackPanel, Desk desk, int desk_num)
         {
-            if (sender is MenuItem menuItem && menuItem.Parent is ContextMenu contextMenu && contextMenu.PlacementTarget is FrameworkElement targetElement && targetElement.Parent is StackPanel stackPanel)
+            for (int i = 0; i < 2; i++)
             {
-                for (int i = 0; i < 2; i++)
-                {
-                    // Remove the first child (assuming it is a StackPanel)
+                if (stackPanel.Children.Count == 2)
                     stackPanel.Children.RemoveAt(0);
+                else
+                {
+                    stackPanel.Children.RemoveAt(0);
+                    break;
                 }
             }
+            users[desk.parrent_id - 1].desk.RemoveAt(desk_num);
+            Read.Write(users);
         }
 
-        
+        private void SaveName(Desk desk, int desk_num, Button btn)
+        {
+            ReName re = new ReName(desk, desk_num, btn);
+            re.text.Text = desk.name;
+            re.Show();
+        }
     }
 }

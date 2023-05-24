@@ -216,14 +216,15 @@ namespace TaskManager
                 Height = 40,
                 Content = "Удалить"
             };
-            deleter.Click += Deleter_Click;
+            deleter.Click += (s, e) => Deleter_Click();
             return deleter;
         }
 
-        private void Deleter_Click(object sender, RoutedEventArgs e)
+        private void Deleter_Click()
         {
             cards.Children.Remove(crd.btn);
-
+            users[crd.path[0]].desk[crd.path[1]].column[crd.path[2]].cards.RemoveAt(crd.path[3]);
+            Read.Write(users);
             
             window.Close();
         }
