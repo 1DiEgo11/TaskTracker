@@ -24,6 +24,7 @@ namespace TaskManager
         private List<User> users;
         private User user;
         public int id;
+        ScrollViewer myScrollViewer;
         public ScrollViewer Window_with_bords(Window window, List<User> _users, User user)
         {
             this.user = user;
@@ -32,7 +33,7 @@ namespace TaskManager
             id = user.id;
             StackPanel myStackPanel = new StackPanel();
             
-            var myScrollViewer = new ScrollViewer
+            myScrollViewer = new ScrollViewer
             {
                 HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
                 Content = Main_Stack(myStackPanel)
@@ -94,19 +95,20 @@ namespace TaskManager
             return bord;
         }
         
-        private StackPanel Create_bord(Desk desk)
+        private StackPanel Create_bord(Desk desk, int desk_num)
         {
             var butPanel = new StackPanel
             {
                 Orientation = Orientation.Horizontal,
             };
 
-            var Text = new TextBox   //проверка на текст, название доски у пользователя
+            var Text = new TextBlock
             {
                 Width = 70,
                 Text = desk.name,
                 HorizontalAlignment = HorizontalAlignment.Center
             };
+
 
             var myCart = new Button
             {
@@ -134,11 +136,15 @@ namespace TaskManager
 
             ContextMenu menu = new ContextMenu();
             MenuItem mi = new MenuItem();
-            mi.Header = "Пользователи"; 
+            mi.Header = "Пользователи";
+            MenuItem rename = new MenuItem();
+            rename.Header = "Переименовать";
+            rename.Click += (s, e) => SaveName(desk, desk_num, myCart);
             MenuItem mia = new MenuItem();
             mia.Header = "Удалить доску";
             mia.Click += Delete;
 
+            menu.Items.Add(rename);
             menu.Items.Add(mi);
             menu.Items.Add(mia);
 
@@ -164,7 +170,7 @@ namespace TaskManager
             return butPanel;
         }
 
-        private WrapPanel Bords() //проверка на количество досок у пользователя
+        private WrapPanel Bords() 
         {
             WrapPanel myPanel = new WrapPanel
             {
@@ -174,7 +180,7 @@ namespace TaskManager
 
             };
 
-            var button_Add = new Button //сколько карточек у пользователя
+            var button_Add = new Button 
             {
                 Margin = new Thickness(30, 30, 57, 30),
                 Width = 100,
@@ -186,16 +192,18 @@ namespace TaskManager
 
             foreach (var user in users)
             {
+                int i = 0;
                 foreach(var bord in user.desk)
                 {
                     if (bord.access == 1)
                     {
-                        myPanel.Children.Add(Create_bord(bord));
+                        myPanel.Children.Add(Create_bord(bord, i));
                     }
                     if (bord.access == 0 && bord.whitelist.Contains(this.user.id))
                     {
-                        myPanel.Children.Add(Create_bord(bord));
+                        myPanel.Children.Add(Create_bord(bord, i));
                     }
+                    i++;
                 }
             }
             
@@ -228,7 +236,7 @@ namespace TaskManager
         {
             var myPanel = (sender as FrameworkElement).Parent as WrapPanel;
             Desk d = Create.CreateDesk(user.id, 0, new int[] {user.id});
-            myPanel.Children.Insert(myPanel.Children.Count - 1 , Create_bord(d));
+            myPanel.Children.Insert(myPanel.Children.Count - 1 , Create_bord(d, myPanel.Children.Count - 1));
             users = Read.Reading();
         }
 
@@ -244,6 +252,11 @@ namespace TaskManager
             }
         }
 
-        
+        private void SaveName(Desk desk, int desk_num, Button btn)
+        {
+            ReName re = new ReName(desk, desk_num, btn);
+            re.text.Text = desk.name;
+            re.Show();
+        }
     }
 }
