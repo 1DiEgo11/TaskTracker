@@ -150,22 +150,39 @@ namespace TaskManager
 
             MenuItem mi2 = new MenuItem();
             mi2.Header = "Список пользователей"; //вывести список пользователей
+            
+       
+            foreach (var us in users)
+            {
+                MenuItem mius = new MenuItem();
+                mius.Header = us.login;
+                if (users[desk.parrent_id - 1].desk[desk_num].whitelist.Contains(us.id))
+                {
+                    mius.Background = new SolidColorBrush(Colors.LightGreen);
+                }
+                mius.Click += (s, e) => addUs(desk, desk_num, mius, us);
+                mi2.Items.Add(mius);
+            }
+            
 
             MenuItem mi3 = new MenuItem();
-            mi3.Header = new CheckBox() //проверка является ли доска общедоступной
+            mi3.Header = "Общедоступность";
+            if (desk.access == 1)
             {
-                Content = "Общедоступная"
-            };
-
-            miniMenu.Click += (s, e) => { miniMenu.ContextMenu.IsOpen = true; };
-
-            mi.Items.Add(mi2);
-            mi.Items.Add(mi3);
-
-            miniMenu.ContextMenu = menu;
+                mi3.Background = new SolidColorBrush(Colors.LightGreen);
+            }
+            mi3.Click += (s, e) => openAccess(desk, desk_num, mi3);
 
             butPanel.Children.Add(myCart);
-            butPanel.Children.Add(miniMenu);
+            if (user.id == desk.parrent_id)
+            {
+                miniMenu.Click += (s, e) => { miniMenu.ContextMenu.IsOpen = true; };
+                mi.Items.Add(mi2);
+                mi.Items.Add(mi3);
+                miniMenu.ContextMenu = menu;
+                butPanel.Children.Add(miniMenu);
+            }            
+            
             
             return butPanel;
         }
@@ -235,7 +252,7 @@ namespace TaskManager
         private void AddButton(object sender, RoutedEventArgs e)
         {
             var myPanel = (sender as FrameworkElement).Parent as WrapPanel;
-            Desk d = Create.CreateDesk(user.id, 0, new int[] {user.id});
+            Desk d = Create.CreateDesk(user.id, 0, new List<int> { user.id });
             myPanel.Children.Insert(myPanel.Children.Count - 1 , Create_bord(d, myPanel.Children.Count - 1));
             users = Read.Reading();
         }
@@ -261,6 +278,39 @@ namespace TaskManager
             ReName re = new ReName(desk, desk_num, btn);
             re.text.Text = desk.name;
             re.Show();
+        }
+        private void openAccess(Desk desk, int num_desk, MenuItem item)
+        {
+            string message =
+        "Доступ к доске = " + desk.access.ToString() + " Сделать доску общедоступной?";
+            const string caption = "Доступ";
+            var result = MessageBox.Show(message, caption, MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                users[desk.parrent_id - 1].desk[num_desk].access = 1;
+                item.Background = new SolidColorBrush(Colors.LightGreen);
+            }
+            else if (result == MessageBoxResult.No)
+            {
+                item.Background = new SolidColorBrush(Colors.Transparent);
+                users[desk.parrent_id - 1].desk[num_desk].access = 0;
+            }
+            Read.Write(users);
+        }
+        private void addUs(Desk desk, int num_desk, MenuItem item, User user)
+        {
+            if (users[desk.parrent_id - 1].desk[num_desk].whitelist.Contains(user.id))
+            {
+                users[desk.parrent_id - 1].desk[num_desk].whitelist.Remove(user.id);
+                item.Background = new SolidColorBrush(Colors.Transparent);
+            }
+            else
+            {
+                users[desk.parrent_id - 1].desk[num_desk].whitelist.Add(user.id);
+                item.Background = new SolidColorBrush(Colors.LightGreen);
+            }
+            Read.Write(users);
         }
     }
 }
