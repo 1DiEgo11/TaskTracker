@@ -31,10 +31,10 @@ namespace TaskManager
     {
         public int parrent_id { get; set; }
         public int access { get; set; }
-        public int[] whitelist { get; set; }
+        public List<int> whitelist { get; set; }
         public string name { get; set; }
         public List<Column> column { get; set; }
-        public Desk(int parrent_id, int access, int[] whitelist, string name)
+        public Desk(int parrent_id, int access, List<int> whitelist, string name)
         {
             this.access = access;
             this.whitelist = whitelist;
